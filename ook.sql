@@ -1,0 +1,154 @@
+CREATE DATABASE library;
+use library ;
+
+CREATE TABLE IF NOT EXISTS School_Unit (
+School_ID VARCHAR(50) NOT NULL,
+School_name VARCHAR(255) NOT NULL,
+address VARCHAR(100) NOT NULL,
+City VARCHAR(100) NOT NULL,
+Telephone VARCHAR(50) NOT NULL,
+email VARCHAR(255) NOT NULL,
+principal_fullname  VARCHAR(50) NOT NULL,
+PRIMARY KEY (School_ID) );
+
+CREATE TABLE IF NOT EXISTS School_Unit_Manager (
+Manager_ID INT UNSIGNED NOT NULL,
+first_Name  VARCHAR(45) NOT NULL,
+Last_name VARCHAR(45) NOT NULL,
+email VARCHAR(255) NOT NULL,
+PRIMARY KEY (Manager_ID)); 
+
+
+CREATE TABLE IF NOT EXISTS Book (
+Book_ID VARCHAR(50) NOT NULL,
+title VARCHAR(50) NOT NULL,
+publisher VARCHAR(50) NOT NULL,
+ISBN VARCHAR(50) NOT NULL,
+pg_numbers INT UNSIGNED NOT NULL,
+summary TEXT, 
+image_URL VARCHAR(100) NOT NULL,
+language_name VARCHAR(50) NOT NULL,
+PRIMARY KEY (BOOK_ID) ) ;
+
+
+CREATE TABLE IF NOT EXISTS Book_Author(
+Book_ID VARCHAR(50) NOT NULL,
+author_fullname VARCHAR(50) NOT NULL,
+PRIMARY KEY (author_fullname),
+CONSTRAINT fk_Author_Book_ID
+    FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
+    
+
+CREATE TABLE IF NOT EXISTS Book_Category(
+Book_ID VARCHAR(50) NOT NULL,
+category_name VARCHAR(50) NOT NULL,
+PRIMARY KEY (category_name),
+CONSTRAINT fk_Category_Book_ID
+    FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
+
+CREATE TABLE IF NOT EXISTS Book_Keyword(
+Book_ID VARCHAR(50) NOT NULL,
+keyword VARCHAR(150) NOT NULL,
+PRIMARY KEY (keyword),
+CONSTRAINT fk_Keyword_Book_ID
+    FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE);
+
+CREATE TABLE IF NOT EXISTS School_Book (
+Book_ID VARCHAR(50) NOT NULL,
+School_ID VARCHAR(50) NOT NULL,
+Available_Copies INT UNSIGNED NOT NULL,
+  PRIMARY KEY (School_ID, Book_ID),
+  CONSTRAINT fk_school_ID
+    FOREIGN KEY (School_ID)
+    REFERENCES School_Unit (School_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_Book_ID
+    FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS Users (
+    User_ID INT UNSIGNED NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    user_password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    PRIMARY KEY (User_ID)
+);
+CREATE TABLE IF NOT EXISTS Borrower_Card (
+    Card_ID INT UNSIGNED NOT NULL,
+    Date_essued DATE NOT NULL,
+    Date_expired DATE NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Card_ID),
+    CONSTRAINT fk_Card_Manager_ID
+        FOREIGN KEY (Manager_ID)
+        REFERENCES School_Unit_Manager (Manager_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE ,
+        CONSTRAINT fk_Card_User_ID
+        FOREIGN KEY (User_ID)
+        REFERENCES Users (User_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+CREATE TABLE IF NOT EXISTS administrator (
+Admin_ID INT UNSIGNED NOT NULL, 
+first_Name  VARCHAR(45) NOT NULL,
+Last_name VARCHAR(45) NOT NULL,
+User_ID INT UNSIGNED NOT NULL,
+PRIMARY KEY (Admin_ID),
+CONSTRAINT fk_admin_User_ID
+        FOREIGN KEY (User_ID)
+        REFERENCES Users (User_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Register (
+Registration_ID INT UNSIGNED NOT NULL,
+School_ID VARCHAR(50) NOT NULL,
+Admin_ID INT UNSIGNED NOT NULL, 
+PRIMARY KEY (Registration_ID),
+    CONSTRAINT fk_register_School_Unit_ID
+    FOREIGN KEY (School_ID)
+     REFERENCES  school_unit (School_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_register_admin_ID
+    FOREIGN KEY (Admin_ID)
+    REFERENCES administrator (Admin_ID) 
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE); 
+    
+    CREATE TABLE IF NOT EXISTS Students_Professors (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    Is_Professor BOOLEAN,
+    age INT UNSIGNED NOT NULL,
+    School_ID VARCHAR(50) NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_SP_School_Unit_ID FOREIGN KEY (School_ID)
+        REFERENCES school_unit (School_ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_SP_User_ID FOREIGN KEY (User_ID)
+        REFERENCES Users (User_ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+); 
+    
+    
