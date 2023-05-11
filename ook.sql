@@ -1,6 +1,3 @@
-CREATE DATABASE library;
-use library ;
-
 CREATE TABLE IF NOT EXISTS School_Unit (
 School_ID VARCHAR(50) NOT NULL,
 School_name VARCHAR(255) NOT NULL,
@@ -151,4 +148,62 @@ PRIMARY KEY (Registration_ID),
         ON DELETE RESTRICT ON UPDATE CASCADE
 ); 
     
+CREATE TABLE IF NOT EXISTS Copies(
+copy_ID VARCHAR(50) NOT NULL,
+Book_ID VARCHAR(50) NOT NULL,
+PRIMARY KEY (copy_ID),
+CONSTRAINT fk_copies_book_ID FOREIGN KEY (Book_ID)
+REFERENCES book (Book_ID)
+ ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Copy_Status(
+book_status VARCHAR(50) NOT NULL,
+copy_ID VARCHAR(50) NOT NULL,
+Book_ID VARCHAR(50) NOT NULL,
+PRIMARY KEY (book_status),
+CONSTRAINT fk_copy_Book_ID  FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+    );
+    
+CREATE TABLE IF NOT EXISTS Borrow(
+Book_ID VARCHAR(50) NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
+CONSTRAINT fk_borrow_Book_ID  FOREIGN KEY (Book_ID)
+    REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+    CONSTRAINT fk_borrow_User_ID  FOREIGN KEY (User_ID)
+    REFERENCES Users (User_ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+); 
+
+CREATE TABLE IF NOT EXISTS Loan(
+    loan_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Book_ID VARCHAR(50) NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
+    loan_date DATE NOT NULL,
+    return_date DATE NOT NULL,
+    date_returned_actual DATE,
+    CONSTRAINT fk_Loan_Book_ID
+        FOREIGN KEY (Book_ID)
+        REFERENCES Book (Book_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_Loan_Manager_ID
+        FOREIGN KEY (Manager_ID)
+        REFERENCES school_unit_manager (Manager_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_Loan_User_ID
+        FOREIGN KEY (user_ID)
+        REFERENCES users (user_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    PRIMARY KEY (loan_id)
+);
+
     
