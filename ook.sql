@@ -1,3 +1,5 @@
+use library ;
+
 CREATE TABLE IF NOT EXISTS School_Unit (
 School_ID VARCHAR(50) NOT NULL,
 School_name VARCHAR(255) NOT NULL,
@@ -13,17 +15,23 @@ Manager_ID INT UNSIGNED NOT NULL,
 first_Name  VARCHAR(45) NOT NULL,
 Last_name VARCHAR(45) NOT NULL,
 email VARCHAR(255) NOT NULL,
+School_ID VARCHAR(50) NOT NULL,
+CONSTRAINT fk_manager_School_ID
+    FOREIGN KEY (School_ID)
+    REFERENCES School_Unit (School_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
 PRIMARY KEY (Manager_ID)); 
 
 
 CREATE TABLE IF NOT EXISTS Book (
 Book_ID VARCHAR(50) NOT NULL,
-title VARCHAR(50) NOT NULL,
+title VARCHAR(250) NOT NULL,
 publisher VARCHAR(50) NOT NULL,
 ISBN VARCHAR(50) NOT NULL,
 pg_numbers INT UNSIGNED NOT NULL,
 summary TEXT, 
-image_URL VARCHAR(100) NOT NULL,
+image_URL VARCHAR(250) NOT NULL,
 language_name VARCHAR(50) NOT NULL,
 PRIMARY KEY (BOOK_ID) ) ;
 
@@ -31,7 +39,7 @@ PRIMARY KEY (BOOK_ID) ) ;
 CREATE TABLE IF NOT EXISTS Book_Author(
 Book_ID VARCHAR(50) NOT NULL,
 author_fullname VARCHAR(50) NOT NULL,
-PRIMARY KEY (author_fullname),
+PRIMARY KEY (Book_ID, author_fullname),
 CONSTRAINT fk_Author_Book_ID
     FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
@@ -42,7 +50,7 @@ CONSTRAINT fk_Author_Book_ID
 CREATE TABLE IF NOT EXISTS Book_Category(
 Book_ID VARCHAR(50) NOT NULL,
 category_name VARCHAR(50) NOT NULL,
-PRIMARY KEY (category_name),
+PRIMARY KEY (Book_ID, category_name),
 CONSTRAINT fk_Category_Book_ID
     FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
@@ -52,7 +60,7 @@ CONSTRAINT fk_Category_Book_ID
 CREATE TABLE IF NOT EXISTS Book_Keyword(
 Book_ID VARCHAR(50) NOT NULL,
 keyword VARCHAR(150) NOT NULL,
-PRIMARY KEY (keyword),
+PRIMARY KEY (Book_ID, keyword),
 CONSTRAINT fk_Keyword_Book_ID
     FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
@@ -187,7 +195,7 @@ CREATE TABLE IF NOT EXISTS Loan(
     User_ID INT UNSIGNED NOT NULL,
     loan_date DATE NOT NULL,
     return_date DATE NOT NULL,
-    date_returned_actual DATE,
+    date_returned_actual DATE NOT NULL,
     CONSTRAINT fk_Loan_Book_ID
         FOREIGN KEY (Book_ID)
         REFERENCES Book (Book_ID)
@@ -195,7 +203,7 @@ CREATE TABLE IF NOT EXISTS Loan(
         ON UPDATE CASCADE,
     CONSTRAINT fk_Loan_Manager_ID
         FOREIGN KEY (Manager_ID)
-        REFERENCES school_unit_manager (Manager_ID)
+        REFERENCES school_unit_manager  (Manager_ID)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     CONSTRAINT fk_Loan_User_ID
@@ -206,4 +214,58 @@ CREATE TABLE IF NOT EXISTS Loan(
     PRIMARY KEY (loan_id)
 );
 
-    
+CREATE TABLE IF NOT EXISTS Reservation(
+    reservation_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Book_ID VARCHAR(50) NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
+    reservation_date DATE NOT NULL,
+    expiry_date DATE NOT NULL,
+    CONSTRAINT fk_Reservation_Book_ID
+        FOREIGN KEY (Book_ID)
+        REFERENCES Book (Book_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+   CONSTRAINT fk_reservation_Manager_ID
+        FOREIGN KEY (Manager_ID)
+        REFERENCES school_unit_manager  (Manager_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_Reservation_User_ID
+        FOREIGN KEY (user_ID)
+        REFERENCES users (user_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE,
+    PRIMARY KEY (reservation_id)
+);
+
+CREATE TABLE IF NOT EXISTS Review(
+    review_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Book_id VARCHAR(50) NOT NULL,
+    User_id INT UNSIGNED NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
+   liker_scale INT UNSIGNED,
+   review TEXT, 
+    CONSTRAINT fk_Rating_Book_ID FOREIGN KEY (book_id)
+        REFERENCES Book (book_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_Rating_Manager_ID FOREIGN KEY (Manager_ID)
+        REFERENCES school_unit_manager (Manager_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_Rating_User_ID FOREIGN KEY (user_id)
+        REFERENCES Users (user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    PRIMARY KEY (review_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS Review_status(
+    review_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    review_status VARCHAR(10) NOT NULL,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (review_id) REFERENCES Review(review_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
