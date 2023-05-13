@@ -2493,7 +2493,6 @@ INSERT INTO administrator(Admin_ID,first_name,last_name,User_ID) VALUES (2,'Lann
 INSERT INTO administrator(Admin_ID,first_name,last_name,User_ID) VALUES (3,'Vanny','Tregidgo','U105');
 INSERT INTO administrator(Admin_ID,first_name,last_name,User_ID) VALUES (4,'Ode','Iskov','U122');
 INSERT INTO administrator(Admin_ID,first_name,last_name,User_ID) VALUES (5,'Noellyn','Dahle','U158');
-INSERT INTO administrator(Admin_ID,first_name,last_name,User_ID) VALUES (NULL,NULL,NULL,NULL);
 
 insert into Register (Registration_ID, School_ID, Admin_ID) values (1, 'S01', 5);
 insert into Register (Registration_ID, School_ID, Admin_ID) values (2, 'S02', 3);
