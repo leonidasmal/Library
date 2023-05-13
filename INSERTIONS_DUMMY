@@ -4551,7 +4551,6 @@ INSERT INTO Loan(loan_ID,Book_ID,Manager_ID,loan_date,return_date,date_returned_
 INSERT INTO Loan(loan_ID,Book_ID,Manager_ID,loan_date,return_date,date_returned_actual,studprof_id,is_LATE) VALUES (108,'B104',14,'2023-09-16','2023-09-23','2023-09-22',130,false);
 INSERT INTO Loan(loan_ID,Book_ID,Manager_ID,loan_date,return_date,date_returned_actual,studprof_id,is_LATE) VALUES (109,'B107',14,'2023-09-17','2023-09-24','2023-09-25',131,false);
 INSERT INTO Loan(loan_ID,Book_ID,Manager_ID,loan_date,return_date,date_returned_actual,studprof_id,is_LATE) VALUES (110,'B113',14,'2023-09-18','2023-09-25','2023-09-26',132,true);
-INSERT INTO Loan(loan_ID,Book_ID,Manager_ID,loan_date,return_date,date_returned_actual,studprof_id,is_LATE) VALUES (NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (1,'2023-06-12','2023-06-19',14,1,'B001');
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (2,'2023-06-17','2023-06-24',36,2,'B002');
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (3,'2023-05-11','2023-05-18',33,3,'B003');
@@ -4652,7 +4651,6 @@ INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,s
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (98,'2023-05-25','2023-06-01',42,98,'B098');
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (99,'2023-06-08','2023-06-15',35,99,'B099');
 INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (100,'2023-06-09','2023-06-16',10,100,'B100');
-INSERT INTO Reservation(reservation_ID,reservation_date,expiry_date,Manager_ID,studprof_id,Book_ID) VALUES (NULL,NULL,NULL,NULL,NULL,NULL);
 
 INSERT INTO Review(Review_ID,likert_scale,Book_ID,Manager_ID,review,User_ID) VALUES ('REV001','really liked it','B053',14,'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.','U001');
 INSERT INTO Review(Review_ID,likert_scale,Book_ID,Manager_ID,review,User_ID) VALUES ('REV002','really liked it','B010',13,'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.','U002');
