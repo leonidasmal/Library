@@ -1,3 +1,5 @@
+CREATE DATABASE  library;
+
 use library ;
 
 CREATE TABLE IF NOT EXISTS School_Unit (
@@ -10,12 +12,40 @@ email VARCHAR(255) NOT NULL,
 principal_fullname  VARCHAR(50) NOT NULL,
 PRIMARY KEY (School_ID) );
 
+CREATE TABLE IF NOT EXISTS Users (
+    User_ID VARCHAR(50) NOT NULL,
+    username VARCHAR(20) NOT NULL UNIQUE,
+    user_password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    PRIMARY KEY (User_ID)
+);
+
+
+CREATE TABLE IF NOT EXISTS administrator (
+Admin_ID INT UNSIGNED NOT NULL, 
+first_name  VARCHAR(45) NOT NULL,
+last_name VARCHAR(45) NOT NULL,
+    User_ID VARCHAR(50) NOT NULL,
+PRIMARY KEY (Admin_ID),
+CONSTRAINT fk_admin_User_ID
+        FOREIGN KEY (User_ID)
+        REFERENCES Users (User_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS School_Unit_Manager (
 Manager_ID INT UNSIGNED NOT NULL,
 first_Name  VARCHAR(45) NOT NULL,
 Last_name VARCHAR(45) NOT NULL,
 email VARCHAR(255) NOT NULL,
 School_ID VARCHAR(50) NOT NULL,
+Admin_ID INT UNSIGNED NOT NULL, 
+CONSTRAINT fk_Manager_Admin_ID FOREIGN KEY (Admin_ID)
+        REFERENCES administrator (Admin_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 CONSTRAINT fk_manager_School_ID
     FOREIGN KEY (School_ID)
     REFERENCES School_Unit (School_ID)
@@ -36,20 +66,21 @@ language_name VARCHAR(50) NOT NULL,
 PRIMARY KEY (BOOK_ID) ) ;
 
 
-CREATE TABLE IF NOT EXISTS Book_Author(
-Book_ID VARCHAR(50) NOT NULL,
-author_fullname VARCHAR(50) NOT NULL,
-PRIMARY KEY (Book_ID, author_fullname),
-CONSTRAINT fk_Author_Book_ID
-    FOREIGN KEY (Book_ID)
-    REFERENCES Book (Book_ID)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE);
+CREATE TABLE IF NOT EXISTS Book_Author (
+    Book_ID VARCHAR(50) NOT NULL,
+    author_fullname VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Book_ID , author_fullname),
+    INDEX fk_book_authors_idx (author_fullname),
+    CONSTRAINT fk_Author_Book_ID FOREIGN KEY (Book_ID)
+        REFERENCES Book (Book_ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+);
     
 
 CREATE TABLE IF NOT EXISTS Book_Category(
 Book_ID VARCHAR(50) NOT NULL,
 category_name VARCHAR(50) NOT NULL,
+INDEX fk_book_category_idx (category_name),
 PRIMARY KEY (Book_ID, category_name),
 CONSTRAINT fk_Category_Book_ID
     FOREIGN KEY (Book_ID)
@@ -61,6 +92,7 @@ CREATE TABLE IF NOT EXISTS Book_Keyword(
 Book_ID VARCHAR(50) NOT NULL,
 keyword VARCHAR(150) NOT NULL,
 PRIMARY KEY (Book_ID, keyword),
+INDEX fk_book_keyword_idx (keyword),
 CONSTRAINT fk_Keyword_Book_ID
     FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
@@ -83,44 +115,9 @@ Available_Copies INT UNSIGNED NOT NULL,
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
-CREATE TABLE IF NOT EXISTS Users (
-    User_ID INT UNSIGNED NOT NULL,
-    username VARCHAR(20) NOT NULL UNIQUE,
-    user_password VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    PRIMARY KEY (User_ID)
-);
-CREATE TABLE IF NOT EXISTS Borrower_Card (
-    Card_ID INT UNSIGNED NOT NULL,
-    Date_essued DATE NOT NULL,
-    Date_expired DATE NOT NULL,
-    Manager_ID INT UNSIGNED NOT NULL,
-    User_ID INT UNSIGNED NOT NULL,
-    PRIMARY KEY (Card_ID),
-    CONSTRAINT fk_Card_Manager_ID
-        FOREIGN KEY (Manager_ID)
-        REFERENCES School_Unit_Manager (Manager_ID)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE ,
-        CONSTRAINT fk_Card_User_ID
-        FOREIGN KEY (User_ID)
-        REFERENCES Users (User_ID)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
-);
-CREATE TABLE IF NOT EXISTS administrator (
-Admin_ID INT UNSIGNED NOT NULL, 
-first_Name  VARCHAR(45) NOT NULL,
-Last_name VARCHAR(45) NOT NULL,
-User_ID INT UNSIGNED NOT NULL,
-PRIMARY KEY (Admin_ID),
-CONSTRAINT fk_admin_User_ID
-        FOREIGN KEY (User_ID)
-        REFERENCES Users (User_ID)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE
-);
+
+
+
 
 CREATE TABLE IF NOT EXISTS Register (
 Registration_ID INT UNSIGNED NOT NULL,
@@ -139,63 +136,83 @@ PRIMARY KEY (Registration_ID),
     ON UPDATE CASCADE); 
     
     CREATE TABLE IF NOT EXISTS Students_Professors (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    studprof_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
     Is_Professor BOOLEAN,
     age INT UNSIGNED NOT NULL,
     School_ID VARCHAR(50) NOT NULL,
-    User_ID INT UNSIGNED NOT NULL,
-    PRIMARY KEY (id),
+    User_ID VARCHAR(50) NOT NULL,
+    INDEX fk_review_manager_idx (User_ID ASC ),
+    PRIMARY KEY (studprof_id),
     CONSTRAINT fk_SP_School_Unit_ID FOREIGN KEY (School_ID)
         REFERENCES school_unit (School_ID)
         ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_SP_User_ID FOREIGN KEY (User_ID)
         REFERENCES Users (User_ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+         CONSTRAINT fk_SP_Manager_ID
+        FOREIGN KEY (Manager_ID)
+        REFERENCES school_unit_manager  (Manager_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE   
 ); 
-    
+    CREATE TABLE IF NOT EXISTS Borrower_Card (
+    Card_ID INT UNSIGNED NOT NULL,
+    Date_issued DATE NOT NULL,
+    Date_expired DATE NOT NULL,
+    Manager_ID INT UNSIGNED NOT NULL,
+	studprof_id INT UNSIGNED NOT NULL ,
+    PRIMARY KEY (Card_ID),
+    CONSTRAINT fk_Card_Manager_ID
+        FOREIGN KEY (Manager_ID)
+        REFERENCES School_Unit_Manager (Manager_ID)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE ,
+        CONSTRAINT fk_Card_SP_ID
+        FOREIGN KEY (studprof_id)
+        REFERENCES students_professors (studprof_id)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
+);
 CREATE TABLE IF NOT EXISTS Copies(
-copy_ID VARCHAR(50) NOT NULL,
+copy_ID INT NOT NULL,
 Book_ID VARCHAR(50) NOT NULL,
+School_ID VARCHAR(50) NOT NULL,
 PRIMARY KEY (copy_ID),
+ 	INDEX fk_Copies_Book_idx (Book_ID ASC ), 
+    INDEX fk_Copies_School_idx (School_ID ASC ), 
 CONSTRAINT fk_copies_book_ID FOREIGN KEY (Book_ID)
 REFERENCES book (Book_ID)
+ ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT fk_copies_SCHOOL_ID FOREIGN KEY (School_ID)
+REFERENCES school_unit (School_ID)
  ON DELETE RESTRICT ON UPDATE CASCADE
-);
+ );
 
 CREATE TABLE IF NOT EXISTS Copy_Status(
 book_status VARCHAR(50) NOT NULL,
-copy_ID VARCHAR(50) NOT NULL,
+copy_ID INT NOT NULL,
 Book_ID VARCHAR(50) NOT NULL,
-PRIMARY KEY (book_status),
 CONSTRAINT fk_copy_Book_ID  FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
     );
-    
-CREATE TABLE IF NOT EXISTS Borrow(
-Book_ID VARCHAR(50) NOT NULL,
-    User_ID INT UNSIGNED NOT NULL,
-CONSTRAINT fk_borrow_Book_ID  FOREIGN KEY (Book_ID)
-    REFERENCES Book (Book_ID)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-    CONSTRAINT fk_borrow_User_ID  FOREIGN KEY (User_ID)
-    REFERENCES Users (User_ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-); 
+
 
 CREATE TABLE IF NOT EXISTS Loan(
     loan_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Book_ID VARCHAR(50) NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
-    User_ID INT UNSIGNED NOT NULL,
+    studprof_id INT UNSIGNED NOT NULL ,
     loan_date DATE NOT NULL,
     return_date DATE NOT NULL,
     date_returned_actual DATE NOT NULL,
+    is_LATE BOOLEAN,
+	INDEX fk_loan_manager_idx (Manager_ID ASC ),
     CONSTRAINT fk_Loan_Book_ID
         FOREIGN KEY (Book_ID)
         REFERENCES Book (Book_ID)
@@ -206,9 +223,9 @@ CREATE TABLE IF NOT EXISTS Loan(
         REFERENCES school_unit_manager  (Manager_ID)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
-    CONSTRAINT fk_Loan_User_ID
-        FOREIGN KEY (user_ID)
-        REFERENCES users (user_ID)
+    CONSTRAINT fk_Loan_SP_ID
+        FOREIGN KEY (studprof_id)
+        REFERENCES students_professors (studprof_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     PRIMARY KEY (loan_id)
@@ -218,9 +235,10 @@ CREATE TABLE IF NOT EXISTS Reservation(
     reservation_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Book_ID VARCHAR(50) NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
-    User_ID INT UNSIGNED NOT NULL,
+    studprof_id INT UNSIGNED NOT NULL ,
     reservation_date DATE NOT NULL,
     expiry_date DATE NOT NULL,
+    INDEX fk_reservation_manager_idx (Manager_ID ASC ),
     CONSTRAINT fk_Reservation_Book_ID
         FOREIGN KEY (Book_ID)
         REFERENCES Book (Book_ID)
@@ -231,20 +249,20 @@ CREATE TABLE IF NOT EXISTS Reservation(
         REFERENCES school_unit_manager  (Manager_ID)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
-    CONSTRAINT fk_Reservation_User_ID
-        FOREIGN KEY (user_ID)
-        REFERENCES users (user_ID)
+    CONSTRAINT fk_reservation_SP_ID
+        FOREIGN KEY (studprof_id)
+        REFERENCES students_professors (studprof_id)
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
     PRIMARY KEY (reservation_id)
 );
 
 CREATE TABLE IF NOT EXISTS Review(
-    review_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    review_id VARCHAR(50) NOT NULL,
     Book_id VARCHAR(50) NOT NULL,
-    User_id INT UNSIGNED NOT NULL,
+    User_ID VARCHAR(50) NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
-   liker_scale INT UNSIGNED,
+   likert_scale VARCHAR(50) NOT NULL,
    review TEXT, 
     CONSTRAINT fk_Rating_Book_ID FOREIGN KEY (book_id)
         REFERENCES Book (book_id)
@@ -263,8 +281,8 @@ CREATE TABLE IF NOT EXISTS Review(
 
 
 CREATE TABLE IF NOT EXISTS Review_status(
-    review_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    review_id VARCHAR(50) NOT NULL,
     review_status VARCHAR(10) NOT NULL,
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (review_id) REFERENCES Review(review_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
