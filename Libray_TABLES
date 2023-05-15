@@ -141,7 +141,7 @@ PRIMARY KEY (Registration_ID),
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
-    Is_Professor BOOLEAN,
+    Is_Professor BOOLEAN NOT NULL,
     age INT UNSIGNED NOT NULL,
     School_ID VARCHAR(50) NOT NULL,
     User_ID VARCHAR(50) NOT NULL,
@@ -263,6 +263,7 @@ CREATE TABLE IF NOT EXISTS Review(
     User_ID VARCHAR(50) NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
    likert_scale VARCHAR(50) NOT NULL,
+   review_status VARCHAR(50) ,
    review TEXT, 
     CONSTRAINT fk_Rating_Book_ID FOREIGN KEY (book_id)
         REFERENCES Book (book_id)
@@ -279,10 +280,4 @@ CREATE TABLE IF NOT EXISTS Review(
     PRIMARY KEY (review_id)
 );
 
-
-CREATE TABLE IF NOT EXISTS Review_status(
-    review_id VARCHAR(50) NOT NULL,
-    review_status VARCHAR(10) NOT NULL,
-  FOREIGN KEY (review_id) REFERENCES Review(review_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
