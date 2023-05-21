@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Page</title>
+  <style>
+    body {
+      background-color: black;
+      color: #FFFFFF; /* White text color */
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      margin: 0 auto;
+      max-width: 400px;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .input-group {
+      margin-bottom: 10px;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .input-group input {
+      padding: 8px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #FFFFFF; /* White border */
+    }
+    
+    .input-group input[type="submit"] {
+      background-color: #FFFFFF; /* White submit button */
+      color: #000000; /* Black text color */
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Registration Form</h2>
+    <form action="your-action-url" method="POST">
+      <div class="input-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="input-group">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+  </div>
+</body>
+</html>
