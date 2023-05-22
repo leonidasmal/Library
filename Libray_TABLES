@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Book_Author (
 CREATE TABLE IF NOT EXISTS Category (
 Category_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 category VARCHAR(50) NOT NULL,
- PRIMARY KEY (Author_ID) 
+	 PRIMARY KEY (Category_ID) 
 );
 
 CREATE TABLE IF NOT EXISTS Book_Category(
@@ -108,7 +108,7 @@ CONSTRAINT fk_Category_Book_ID
     ON UPDATE CASCADE,
 CONSTRAINT fk_Category_ID
     FOREIGN KEY (Category_ID )
-    REFERENCES Category (Category_ID )
+    REFERENCES Category (Category_ID)
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
