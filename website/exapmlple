@@ -1,0 +1,29 @@
+<div class="bookview">
+			<div class="bookview-flex1">
+				<img src="http://libdimken.mysch.gr/bookimg/672.jpg" onerror="this.src='images/default.png'">
+				<p id="rankBook" title="Δείτε τις αξιολογήσεις"><a href="#listComments"></a></p>
+			</div>
+			<div class="bookview-flex2">
+				<table class="noborder">
+					<tbody><tr style="border-bottom:1px solid;"><td style="width:150px;"><span style="color:green;font-weight:bold;"><i class="fa fa-circle"></i> Διαθέσιμο</span></td>
+					<td>
+					<div style="display:flex;flex-wrap: wrap;justify-content: space-evenly;">
+						
+						<span id="copyLink" class="linkhover" link="http://libdimken.mysch.gr?barcode=672"><i class="fa fa-link" style="font-weight:bold;"></i> <small>Αντιγραφή συνδέσμου</small></span>
+						<span id="addToWish" class="linkhover" barcode="672"><i class="fa fa-heart"></i> <small>Προσθήκη στη λίστα μου</small></span>
+					</div>
+					</td></tr>
+					<tr><td><label>ISBN (Barcode):</label></td><td> (672)</td></tr>
+					<tr><td><label>Τίτλος:</label></td><td>Ανακαλύπτω και δημιουργώ: Αρχαίοι Έλληνες </td></tr>
+					<tr><td><label>Συγγραφέας:</label></td><td>Βρετανικό Μουσείο</td></tr>
+					<tr><td><label>Εκδόσεις:</label></td><td>Modern Times 0, 0 σελ</td></tr>
+					<tr><td><label>Θεματική [Dewey]:</label></td><td>Μυθολογία, Ελληνική - Βιβλία για παιδιά [291]</td></tr>
+					<tr><td><label>Τίτλος πρωτοτύπου:</label></td><td></td></tr>
+					<tr><td><label>Ράφι/Συλλογή:</label></td><td></td></tr>
+					<tr><td><label>Λοιποί συντελεστές:</label></td><td></td></tr>
+					<tr><td colspan="2"><label>Περιγραφή:</label> <br></td></tr>
+					<tr><td><label>Λέξεις κλειδιά:</label></td><td><i></i></td></tr>
+					<tr><td><label>Είσοδος-Συνοδευτικό:</label></td><td>09/02/2022 Δωρεά </td></tr>
+				</tbody></table>
+			</div>
+		</div>
