@@ -1,9 +1,11 @@
 CREATE DATABASE  library;
 
+CREATE DATABASE  library;
+
 use library ;
 
 CREATE TABLE IF NOT EXISTS School_Unit (
-School_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+School_ID INT UNSIGNED AUTO_INCREMENT,
 School_name VARCHAR(255) NOT NULL,
 address VARCHAR(100) NOT NULL,
 City VARCHAR(100) NOT NULL,
@@ -16,17 +18,19 @@ CREATE TABLE IF NOT EXISTS Users (
     User_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL UNIQUE,
     user_password VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
+    Email VARCHAR(255)  NOT NULL,
     phone VARCHAR(50) NOT NULL,
-    PRIMARY KEY (User_ID)
+    status VARCHAR(50) NOT NULL,
+    PRIMARY KEY (User_ID),
+    CONSTRAINT unique_email UNIQUE (Email)
 );
 
 
 CREATE TABLE IF NOT EXISTS administrator (
-Admin_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+Admin_ID INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 first_name  VARCHAR(45) NOT NULL,
 last_name VARCHAR(45) NOT NULL,
-    User_ID VARCHAR(50) NOT NULL,
+User_ID INT UNSIGNED NOT NULL,
 PRIMARY KEY (Admin_ID),
 CONSTRAINT fk_admin_User_ID
         FOREIGN KEY (User_ID)
@@ -40,12 +44,17 @@ Manager_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 first_Name  VARCHAR(45) NOT NULL,
 Last_name VARCHAR(45) NOT NULL,
 email VARCHAR(255) NOT NULL,
-School_ID VARCHAR(50) NOT NULL,
-Admin_ID INT UNSIGNED NOT NULL ,
+School_ID INT UNSIGNED NOT NULL,
+Admin_ID INT UNSIGNED , 
+User_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 CONSTRAINT fk_Manager_Admin_ID FOREIGN KEY (Admin_ID)
         REFERENCES administrator (Admin_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
+CONSTRAINT fk_Manager_user_ID FOREIGN KEY (User_ID)
+       REFERENCES users(User_ID)
+       ON DELETE CASCADE
+       ON UPDATE CASCADE,
 CONSTRAINT fk_manager_School_ID
     FOREIGN KEY (School_ID)
     REFERENCES School_Unit (School_ID)
@@ -67,7 +76,7 @@ PRIMARY KEY (BOOK_ID) ) ;
 
 
 CREATE TABLE IF NOT EXISTS Book_Author (
-    Book_ID INT UNSIGNED NOT NULL ,
+    Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     author_fullname VARCHAR(50) NOT NULL,
     PRIMARY KEY (Book_ID , author_fullname),
     INDEX fk_book_authors_idx (author_fullname),
@@ -78,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Book_Author (
     
 
 CREATE TABLE IF NOT EXISTS Book_Category(
-Book_ID INT UNSIGNED NOT NULL ,
+Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 category_name VARCHAR(50) NOT NULL,
 INDEX fk_book_category_idx (category_name),
 PRIMARY KEY (Book_ID, category_name),
@@ -89,7 +98,7 @@ CONSTRAINT fk_Category_Book_ID
     ON UPDATE CASCADE);
 
 CREATE TABLE IF NOT EXISTS Book_Keyword(
-Book_ID INT UNSIGNED NOT NULL ,
+Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 keyword VARCHAR(150) NOT NULL,
 PRIMARY KEY (Book_ID, keyword),
 INDEX fk_book_keyword_idx (keyword),
@@ -100,8 +109,8 @@ CONSTRAINT fk_Keyword_Book_ID
     ON UPDATE CASCADE);
 
 CREATE TABLE IF NOT EXISTS School_Book (
-Book_ID INT UNSIGNED NOT NULL ,
-School_ID INT UNSIGNED NOT NULL ,
+Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+School_ID INT UNSIGNED NOT NULL,
 Available_Copies INT UNSIGNED NOT NULL,
   PRIMARY KEY (School_ID, Book_ID),
   CONSTRAINT fk_school_ID
@@ -121,8 +130,8 @@ Available_Copies INT UNSIGNED NOT NULL,
 
 CREATE TABLE IF NOT EXISTS Register (
 Registration_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-School_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-Admin_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+School_ID INT UNSIGNED NOT NULL,
+Admin_ID INT UNSIGNED NOT NULL, 
 PRIMARY KEY (Registration_ID),
     CONSTRAINT fk_register_School_Unit_ID
     FOREIGN KEY (School_ID)
@@ -140,11 +149,11 @@ PRIMARY KEY (Registration_ID),
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    Manager_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Manager_ID INT UNSIGNED ,
     Is_Professor BOOLEAN NOT NULL,
     age INT UNSIGNED NOT NULL,
-    School_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    User_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    School_ID INT UNSIGNED NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
     INDEX fk_review_manager_idx (User_ID ASC ),
     PRIMARY KEY (studprof_id),
     CONSTRAINT fk_SP_School_Unit_ID FOREIGN KEY (School_ID)
@@ -160,7 +169,7 @@ PRIMARY KEY (Registration_ID),
         ON UPDATE CASCADE   
 ); 
     CREATE TABLE IF NOT EXISTS Borrower_Card (
-    Card_ID INT UNSIGNED NOT NULL,
+    Card_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Date_issued DATE NOT NULL,
     Date_expired DATE NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
@@ -177,35 +186,11 @@ PRIMARY KEY (Registration_ID),
         ON DELETE RESTRICT
         ON UPDATE CASCADE
 );
-CREATE TABLE IF NOT EXISTS Copies(
-copy_ID INT NOT NULL,
-Book_ID VARCHAR(50) NOT NULL,
-School_ID VARCHAR(50) NOT NULL,
-PRIMARY KEY (copy_ID),
- 	INDEX fk_Copies_Book_idx (Book_ID ASC ), 
-    INDEX fk_Copies_School_idx (School_ID ASC ), 
-CONSTRAINT fk_copies_book_ID FOREIGN KEY (Book_ID)
-REFERENCES book (Book_ID)
- ON DELETE RESTRICT ON UPDATE CASCADE,
- CONSTRAINT fk_copies_SCHOOL_ID FOREIGN KEY (School_ID)
-REFERENCES school_unit (School_ID)
- ON DELETE RESTRICT ON UPDATE CASCADE
- );
-
-CREATE TABLE IF NOT EXISTS Copy_Status(
-book_status VARCHAR(50) NOT NULL,
-copy_ID INT NOT NULL,
-Book_ID VARCHAR(50) NOT NULL,
-CONSTRAINT fk_copy_Book_ID  FOREIGN KEY (Book_ID)
-    REFERENCES Book (Book_ID)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE
-    );
 
 
 CREATE TABLE IF NOT EXISTS Loan(
     loan_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    Book_ID VARCHAR(50) NOT NULL,
+    Book_ID INT UNSIGNED NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
     studprof_id INT UNSIGNED NOT NULL ,
     loan_date DATE NOT NULL,
@@ -233,7 +218,7 @@ CREATE TABLE IF NOT EXISTS Loan(
 
 CREATE TABLE IF NOT EXISTS Reservation(
     reservation_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    Book_ID VARCHAR(50) NOT NULL,
+    Book_ID INT UNSIGNED NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
     studprof_id INT UNSIGNED NOT NULL ,
     reservation_date DATE NOT NULL,
@@ -258,9 +243,9 @@ CREATE TABLE IF NOT EXISTS Reservation(
 );
 
 CREATE TABLE IF NOT EXISTS Review(
-    review_id VARCHAR(50) NOT NULL,
-    Book_id VARCHAR(50) NOT NULL,
-    User_ID VARCHAR(50) NOT NULL,
+    review_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    Book_id INT UNSIGNED NOT NULL,
+    User_ID INT UNSIGNED NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
    likert_scale VARCHAR(50) NOT NULL,
    review_status VARCHAR(50) ,
@@ -279,5 +264,92 @@ CREATE TABLE IF NOT EXISTS Review(
         ON UPDATE CASCADE,
     PRIMARY KEY (review_id)
 );
+
+DELIMITER //
+CREATE PROCEDURE change_count(IN B_ID INT,S_ID INT,n INT)
+BEGIN 
+UPDATE School_Book sb
+		SET sb.Available_Copies = sb.Available_Copies + n
+		WHERE (sb.Book_ID, sb.School_ID) = (B_ID,S_ID);
+END//
+
+CREATE TRIGGER `is_professor` BEFORE INSERT ON `Review` FOR EACH ROW
+BEGIN
+ IF (SELECT Is_Professor FROM Students_Professors SP WHERE SP.User_id = NEW.User_id) = 0 THEN
+	SET NEW.review_status = 'Pending' ;
+ELSE
+	SET NEW.review_status = 'Accepted';
+END IF;
+END //
+
+
+CREATE TRIGGER after_return
+AFTER UPDATE ON Loan
+FOR EACH ROW
+BEGIN
+    IF NEW.date_returned_actual != NULL THEN
+		call change_count(NEW.Book_ID,
+				(SELECT m.School_ID 
+				FROM School_Unit_Manager m 
+                            WHERE m.Manager_ID = NEW.Manager_ID)
+                            ,1);
+    END IF;
+END //
+
+CREATE TRIGGER after_loan
+AFTER INSERT ON Loan
+FOR EACH ROW
+BEGIN
+    DECLARE s_id INT;
+    DECLARE r_id INT;
+
+    SELECT m.School_ID INTO s_id
+    FROM School_Unit_Manager m
+    WHERE m.Manager_ID = NEW.Manager_ID;
+    
+    SELECT reservation_id INTO r_id
+    FROM Reservation
+    WHERE Book_ID = NEW.Book_ID AND studprof_id = NEW.studprof_id;
+
+    IF r_id IS NOT NULL THEN
+        DELETE FROM Reservation WHERE reservation_id = r_id;
+    ELSE
+        CALL change_count(NEW.Book_ID, s_id, -1);
+    END IF;
+END//
+
+
+
+DELIMITER ;
+
+
+
+
+
+
+-------------------3.1.1-------------------
+SELECT s.school_name, COUNT(*) AS loan_count
+FROM Loan l
+JOIN Book b ON l.Book_ID = b.Book_ID
+JOIN school_unit_manager m ON l.Manager_ID = m.Manager_ID
+JOIN students_professors sp ON l.studprof_id = sp.studprof_id
+JOIN school_unit s ON m.school_id = s.school_id
+WHERE YEAR(l.loan_date) = 2023 -- Specify the desired year
+GROUP BY s.school_name;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
