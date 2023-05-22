@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS Users (
     username VARCHAR(20) NOT NULL UNIQUE,
     user_password VARCHAR(255) NOT NULL,
     Email VARCHAR(255)  NOT NULL,
-    phone VARCHAR(50) NOT NULL,
     status VARCHAR(50) NOT NULL,
     PRIMARY KEY (User_ID),
     CONSTRAINT unique_email UNIQUE (Email)
@@ -45,7 +44,7 @@ Last_name VARCHAR(45) NOT NULL,
 email VARCHAR(255) NOT NULL,
 School_ID INT UNSIGNED NOT NULL,
 Admin_ID INT UNSIGNED , 
-User_ID INT UNSIGNED NOT NULL ,
+User_ID INT UNSIGNED NOT NULL,
 CONSTRAINT fk_Manager_Admin_ID FOREIGN KEY (Admin_ID)
         REFERENCES administrator (Admin_ID)
         ON DELETE CASCADE
@@ -73,26 +72,43 @@ image_URL VARCHAR(250) NOT NULL,
 language_name VARCHAR(50) NOT NULL,
 PRIMARY KEY (BOOK_ID) ) ;
 
+CREATE TABLE IF NOT EXISTS Author (
+Author_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+author_fullname VARCHAR(50) NOT NULL,
+ PRIMARY KEY (Author_ID) 
+);
+
 
 CREATE TABLE IF NOT EXISTS Book_Author (
-    Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    author_fullname VARCHAR(50) NOT NULL,
-    PRIMARY KEY (Book_ID , author_fullname),
-    INDEX fk_book_authors_idx (author_fullname),
+    Book_ID INT UNSIGNED NOT NULL,
+    Author_ID INT UNSIGNED NOT NULL,
+    PRIMARY KEY (Book_ID, Author_ID),
     CONSTRAINT fk_Author_Book_ID FOREIGN KEY (Book_ID)
         REFERENCES Book (Book_ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_Author_ID FOREIGN KEY (Author_ID)
+        REFERENCES Author (Author_ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
     
+CREATE TABLE IF NOT EXISTS Category (
+Category_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
+author_fullname VARCHAR(50) NOT NULL,
+ PRIMARY KEY (Author_ID) 
+);
 
 CREATE TABLE IF NOT EXISTS Book_Category(
-Book_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-category_name VARCHAR(50) NOT NULL,
-INDEX fk_book_category_idx (category_name),
-PRIMARY KEY (Book_ID, category_name),
+Book_ID INT UNSIGNED NOT NULL,
+Category_ID INT UNSIGNED NOT NULL,
+PRIMARY KEY (Book_ID, Category_ID),
 CONSTRAINT fk_Category_Book_ID
     FOREIGN KEY (Book_ID)
     REFERENCES Book (Book_ID)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+CONSTRAINT fk_Category_ID
+    FOREIGN KEY (Category_ID )
+    REFERENCES Category (Category_ID )
     ON DELETE RESTRICT
     ON UPDATE CASCADE);
 
