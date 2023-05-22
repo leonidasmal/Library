@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS Loan(
     Manager_ID INT UNSIGNED NOT NULL,
     studprof_id INT UNSIGNED NOT NULL ,
     loan_date DATE NOT NULL,
-    return_date DATE NOT NULL,
+    return_date DATE ,
     date_returned_actual DATE NOT NULL,
     is_LATE BOOLEAN,
 	INDEX fk_loan_manager_idx (Manager_ID ASC ),
