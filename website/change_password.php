@@ -106,7 +106,7 @@ if (isset($_POST['submit'])) {
       <li><a href="search_book.php">Search Books</a></li>
       <li><a href="view_account.php">My Account</a></li>
       <li><a href="#">Library Events</a></li>
-      <li><a href="#">Contact Us</a></li>
+      <li><a href="contact_us.php">Contact Us</a></li>
       <li><a href="login.php?logout=1">Log Out</a></li>
     </ul>
   </nav>
