@@ -1,20 +1,36 @@
 <?php
 include("connect.php");
-
+session_start();
+$managerID=$_SESSION['Manager_ID'] ;
 if (isset($_POST['approve'])) {
-    $id = $_POST['User_ID'];
-    $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
-    $result = mysqli_query($conn, $query);
-    if ($result) {
-        header("Location: manager.php");
-        echo '<script type="text/javascript">';
-        echo 'alert("User Approved!");';
-        echo 'window.location.reload();';
-        echo '</script>';
-    } else {
-        echo "Error approving user: " . mysqli_error($conn);
-    }
+  $id = $_POST['User_ID'];
+  $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
+  $result = mysqli_query($conn, $query);
+
+  if ($result) {
+      // User status update successful
+      $managerID = $_SESSION['Manager_ID'];
+      $updateManagerQuery = "UPDATE students_professors SET Manager_ID='$managerID' WHERE User_ID='$id'";
+      $updateManagerResult = mysqli_query($conn, $updateManagerQuery);
+
+      if ($updateManagerResult) {
+          // Both updates successful
+          header("Location: manager.php");
+          echo '<script type="text/javascript">';
+          echo 'alert("User Approved!");';
+          echo 'window.location.reload();';
+          echo '</script>';
+      } else {
+          // Error updating students_professors table
+          echo "Error updating students_professors: " . mysqli_error($conn);
+      }
+  } else {
+      // Error updating user status
+      echo "Error approving user: " . mysqli_error($conn);
+  }
 }
+
+
 
 if (isset($_POST['deny'])) {
     $id = $_POST['User_ID'];

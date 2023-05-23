@@ -17,11 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     exit;
   }
 
-  // Validate phone number
-  if (!preg_match('/^\+?[0-9]{10,15}$/', $phone)) {
-    echo '<div style="background-color: #ffffff; padding: 30px; border: 2px solid red; border-radius: 10px; font-family: Arial, sans-serif; font-size: 24px; color: red; text-align: center; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">Error in registration. Please enter a valid phone number.</div>';
-    exit;
-  }
+ 
   $select = "SELECT * FROM users WHERE username='$username'";
   $result = mysqli_query($conn, $select);
   if (!$result) {
@@ -115,10 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
     </div>
-    <div class="input-group">
-      <label for="phone">Telephone Number:</label>
-      <input type="tel" id="phone" name="phone" required>
-    </div>
+    
     <div class="input-group">
       <label for="school">School:</label>
       

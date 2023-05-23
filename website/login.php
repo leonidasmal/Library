@@ -5,7 +5,6 @@ include('connect.php');
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
-
   $select = "SELECT * FROM users WHERE username='$username' AND user_password='$password'";
   $result = mysqli_query($conn, $select);
 
@@ -18,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // Username and password are correct
     $user = mysqli_fetch_assoc($result);
     $userID = $user['User_ID'];
+    $username = $user['username'];
 
     // Check if the user is an admin
     $adminQuery = "SELECT * FROM administrator WHERE User_ID='$userID'";
@@ -46,18 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (mysqli_num_rows($adminResult) > 0) {
       // User is an admin
       $_SESSION['Admin_ID'] = $userID;
+      $_SESSION['Manager_ID'] = ""; // Set an empty value for Manager_ID
+      $_SESSION['username'] = $username;
       header("Location: admin.php");
       exit;
     } elseif (mysqli_num_rows($studentResult) > 0) {
-      // User is a student
       $_SESSION['studprof_ID'] = $userID;
+      $_SESSION['Manager_ID'] = ""; // Set an empty value for Manager_ID
+      $_SESSION['username'] = $username;
       header("Location: user_dashboard.php");
       exit;
     } elseif (mysqli_num_rows($operatorResult) > 0) {
       // User is an operator manager
-      $_SESSION['Manager_ID'] = $userID;
-      $_SESSION['Admin_ID'] = ""; // Set an empty value for Admin_ID
-      header("Location: manager.php");
+      $_SESSION['studprof_ID'] = $userID;
+      $_SESSION['Manager_ID'] = ""; // Set an empty value for Manager_ID
+      $_SESSION['username'] = $username;
+      header("Location: user_dashboard.php");
       exit;
     } else {
       // No matching role found
