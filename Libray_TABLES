@@ -276,7 +276,7 @@ CREATE TABLE IF NOT EXISTS Review(
         ON UPDATE CASCADE,
     CONSTRAINT fk_Rating_User_ID FOREIGN KEY (user_id)
         REFERENCES Users (user_id)
-        ON DELETE CASCADE
+    ON DELETE RESTRICT
         ON UPDATE CASCADE,
     PRIMARY KEY (review_id)
 );
