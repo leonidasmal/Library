@@ -1,36 +1,27 @@
 <?php
 include("connect.php");
 session_start();
-$adminID=$_SESSION['Admin_ID'] ;
+$adminID= $_SESSION['Admin_ID'];
 if (isset($_POST['approve'])) {
-  $id = $_POST['User_ID'];
-  $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
-  $result = mysqli_query($conn, $query);
-
-  if ($result) {
-      // User status update successful
-      $adminID = $_SESSION['Admin_ID'];
-      $updateadminQuery = "UPDATE school_unit_manager SET Admin_ID='$adminID' WHERE User_ID='$id'";
-      $updateadminResult = mysqli_query($conn, $updateadminQuery);
-
-      if ($updateadminResult ) {
-          // Both updates successful
-          header("Location: admin.php");
-          echo '<script type="text/javascript">';
-          echo 'alert("Operator Approved!");';
-          echo 'window.location.reload();';
-          echo '</script>';
-      } else {
-          // Error updating school_unit_manager table
-          echo "Error updating school_unit_manager: " . mysqli_error($conn);
-      }
-  } else {
-      // Error updating user status
-      echo "Error approving user: " . mysqli_error($conn);
-  }
+    $id = $_POST['User_ID'];
+    $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
+    $result = mysqli_query($conn, $query);
+    $updateQuery = "UPDATE school_unit_manager SET Admin_ID='$adminID' WHERE User_ID='$id'";
+    $updateResult = mysqli_query($conn, $updateQuery);
+    if ($result) { 
+       
+        $updateQuery = "UPDATE school_unit_manager SET Admin_ID='$adminID' WHERE User_ID='$id'";
+        $updateResult = mysqli_query($conn, $updateQuery);
+        header("Location: admin.php");
+        echo '<script type="text/javascript">';
+        echo 'alert("Operator Approved!");';
+        echo 'window.location.reload();';
+        echo '</script>';
+       
+    } else {
+        echo "Error approving user: " . mysqli_error($conn);
+    }
 }
-
-
 
 if (isset($_POST['deny'])) {
     $id = $_POST['User_ID'];
@@ -39,8 +30,9 @@ if (isset($_POST['deny'])) {
     $deleteQuery = "DELETE FROM school_unit_manager WHERE User_ID='$id'";
     $deleteResult = mysqli_query($conn, $deleteQuery);
     if (!$deleteResult) {
-        echo "Error deleting corresponding rows from school_unit_manager table: " . mysqli_error($conn);
         header("Location: admin.php");
+        echo "Error deleting corresponding  " . mysqli_error($conn);
+        header("Location: manager.php");
         exit;
     }
 
@@ -50,7 +42,7 @@ if (isset($_POST['deny'])) {
     if ($deleteUserResult) {
         header("Location: admin.php");
         echo '<script type="text/javascript">';
-        echo 'alert("User denied ");';
+        echo 'alert("Operator denied ");';
         echo 'window.location.reload();';
         echo '</script>';
     } else {
@@ -67,7 +59,7 @@ if (isset($_POST['deny'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="manager_app.css">
 
-    <title>Admin Approval</title>
+    <title>Manager Approval</title>
   </head>
   <body>
     <div class="center">

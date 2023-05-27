@@ -1,72 +1,30 @@
 <?php
 include("connect.php");
 session_start();
+
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
   <title>School Details</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 20px;
+  <!DOCTYPE html>
+<html>
+<body>
+<link rel="stylesheet" type="text/css" href="school_details.css">
+<script>
+    function deleteBook(bookID) {
+      if (confirm("Are you sure you want to delete this book?")) {
+        // Redirect to the delete book page with the book ID
+        window.location.href = "delete_book.php?Book_ID=" + bookID;
+      }
     }
+    function editBook(bookID) {
+  window.location.href = "edit_book.php?Book_ID=" + bookID;
+}
 
-    h2 {
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    .school-details {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .book {
-      background-color: #fff;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .book-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .book-details {
-      margin-top: 10px;
-    }
-
-    .book-details p {
-      margin-bottom: 5px;
-    }
-
-    .book-details hr {
-      margin: 10px 0;
-      border: none;
-      border-top: 1px solid #ccc;
-    }
-
-    .primary-color {
-      color: #3498db;
-    }
-
-    .secondary-color {
-      color: #e67e22;
-    }
-  </style>
+  </script>
 </head>
 <body>
 <?php
@@ -85,7 +43,7 @@ if (isset($_GET['School_ID'])) {
     echo "Query execution failed: " . mysqli_error($conn);
     exit;
   }
-
+  
   // Fetch the school details
   $schoolDetails = mysqli_fetch_assoc($schoolDetailsResult);
 ?>
@@ -95,13 +53,11 @@ if (isset($_GET['School_ID'])) {
     <p><strong>School Name:</strong> <?php echo $schoolDetails['School_name']; ?></p>
     <p><strong>School Address:</strong> <?php echo $schoolDetails['address']; ?></p>
   </div>
-
-<?php
+ <?php
   // Query to fetch the books and their details
-  $booksQuery = "SELECT * FROM book_details_view  bdv 
-  INNER JOIN school_book sb ON sb.Book_ID =bdv.Book_ID WHERE sb.School_ID=' $schoolID'";
+  $booksQuery = "SELECT * FROM book_details bdv INNER JOIN school_book sb ON sb.Book_ID = bdv.Book_ID WHERE sb.School_ID = '$schoolID'";
   $booksResult = mysqli_query($conn, $booksQuery);
-
+  
   if (!$booksResult) {
     echo "Query execution failed: " . mysqli_error($conn);
     exit;
@@ -110,27 +66,39 @@ if (isset($_GET['School_ID'])) {
 
   <h2 class="primary-color">Books</h2>
 
-<?php
+  <?php
   // Display the books
   while ($book = mysqli_fetch_assoc($booksResult)) {
-?>
+    $imageURL = $book['image_URL'];
+    ?>
     <div class="book">
-      <h3 class="book-title secondary-color"><?php echo $book['title']; ?></h3>
+      <div class="book-image">
+        <?php if (!empty($imageURL)) { ?>
+          <img src="<?php echo $imageURL; ?>" alt="Book Image">
+        <?php } ?>
+      </div>
       <div class="book-details">
-        <p><strong>Book ID:</strong> <?php echo $book['book_id']; ?></p>
-        <p><strong>Number of pages:</strong> <?php echo $book['pg_numbers']; ?></p>
-        <p><strong>Language:</strong> <?php echo $book['language_name']; ?></p>
-        <p><strong>Author:</strong> <?php echo $book['authors']; ?></p>
-        <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
+        <h3 class="book-title secondary-color"><?php echo $book['title']; ?></h3>
+        <div class="book-info">
+          <p><strong>Number of pages:</strong> <?php echo $book['pg_numbers']; ?></p>
+          <p><strong>Language:</strong> <?php echo $book['language_name']; ?></p>
+          <p><strong>Author:</strong> <?php echo $book['authors']; ?></p>
+          <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
+        </div>
+        <div class="action-buttons">
+        <button onclick="editBook(<?php echo $book['Book_ID']; ?>)">Edit</button>
+                  <button onclick="deleteBook(<?php echo $book['Book_ID']; ?>)">Delete</button>
+        </div>
 
       </div>
-      <hr>
     </div>
+    <hr>
 <?php
   }
 } else {
   echo "Invalid school ID";
 }
 ?>
+<a href="add_book.php?School_ID=<?php echo $schoolID; ?>">Add a Book</a>
 </body>
 </html>
