@@ -58,7 +58,7 @@ input[type="submit"]:hover {
   background-color: #999999; /* Updated submit button hover color (darker green) */
 }
 select {
-  color: #ffffff; /* Set the text color of the dropdown */
+  color: #000000; /* Set the text color of the dropdown */
   background-color: #FFFFFF; /* Set the background color of the dropdown */
 }
 
@@ -85,8 +85,8 @@ select {
   .ui-datepicker {
     width: 300px;
     padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: #000000;
+    border: 1px solid #000000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
   }

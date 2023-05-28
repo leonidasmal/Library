@@ -6,7 +6,8 @@ if (!isset($_SESSION['username'])) {
   header("Location: login.php");
   exit;
 }
-
+$managerID = $_SESSION['Manager_ID'];
+var_dump($managerID);
 // Logout functionality
 if (isset($_GET['logout'])) {
   session_destroy(); // Destroy all session data
@@ -21,7 +22,7 @@ if (isset($_GET['logout'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
+  <title>Manager_dashboard</title>
   <link rel="stylesheet" type="text/css" href="user_dash.css">
 </head>
 <body>
@@ -29,7 +30,7 @@ if (isset($_GET['logout'])) {
   <div class="logo">Library</div>
   <nav>
     <ul>
-    <li><a href="edit_books.php">Home</a></li>
+    <li><a href="operator_manager_dashboard.php">Home</a></li>
       <li><a href="#">Library Events</a></li>
       <li><a href="contact_us.php">Contact Us</a></li>
       <li><a href="?logout">Log Out</a></li> <!-- Add logout link with query parameter -->    </ul>
@@ -57,8 +58,9 @@ if (isset($_GET['logout'])) {
 </div>
 <div class="card">
   <h3>Overview Registrations</h3>
-  <a href="manager.php">Approve/Deny Users</a>
+  <a href="manager.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">Approve/Deny Users</a>
 </div>
+
 <div class="card">
   <h3>Manage Reviews</h3>
   <a href="manager.php">See student reviews</a>

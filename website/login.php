@@ -1,79 +1,62 @@
 <?php
 session_start();
-include('connect.php');
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+include("connect.php");
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  // Retrieve the submitted username and password
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  // Query to check if the login credentials are valid
-  $select = "SELECT * FROM users WHERE username='$username' AND user_password='$password'";
-  $result = mysqli_query($conn, $select);
+// Check if the user is already logged in with a selected school
+if (isset($_SESSION["School_ID"])) {
+  $selectedSchoolID = $_SESSION["School_ID"];
+  echo "<h1 style='text-align: center; color: white;'>Selected School ID: " . $selectedSchoolID . "</h1>";
+} else {
+  echo "<h1 style='text-align: center; color: white;'>Please select your school on the front page.</h1>";
+  exit;
+}
 
-  if (!$result) {
-    echo "Query execution failed: " . mysqli_error($conn);
-    exit;
-  }
 
-  // Check if the login credentials are correct
-  if (mysqli_num_rows($result) > 0) {
-    $user = mysqli_fetch_assoc($result);
-    $userID = $user['User_ID'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-    // Retrieve the School_ID associated with the user in the school_unit_operator table
-    $operatorQuery = "SELECT School_ID FROM school_unit_manager WHERE User_ID='$userID'";
-    $operatorResult = mysqli_query($conn, $operatorQuery);
+    // Prepare and bind parameters to prevent SQL injection
+    $userQuery = "SELECT u.User_ID, sp.studprof_ID, sm.Manager_ID, sp.School_ID, sm.School_ID
+                  FROM users u
+                  LEFT JOIN students_professors sp ON u.User_ID = sp.User_ID
+                  LEFT JOIN school_unit_manager sm ON u.User_ID = sm.User_ID
+                  WHERE u.username = ? AND u.user_password = ?";
+    $stmt = $conn->prepare($userQuery);
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $userResult = $stmt->get_result();
 
-    if (!$operatorResult) {
-      echo "Query execution failed: " . mysqli_error($conn);
-      exit;
-    }
+    if ($userResult->num_rows == 1) {
+        $userRow = $userResult->fetch_assoc();
+        $userID = $userRow["User_ID"];
+        $studprofID = $userRow["studprof_ID"];
+        $managerID = $userRow["Manager_ID"];
+        $studentProfessorSchoolID = $userRow["School_ID"];
+        $managerSchoolID = $userRow["School_ID"];
 
-    // Retrieve the School_ID associated with the user in the studprofessors table
-    $studprofQuery = "SELECT School_ID FROM students_professors WHERE User_ID='$userID'";
-    $studprofResult = mysqli_query($conn, $studprofQuery);
+        if (($managerID && $managerSchoolID == $selectedSchoolID) || ($studprofID && $studentProfessorSchoolID == $selectedSchoolID)) {
+            $_SESSION["User_ID"] = $userID;
 
-    if (!$studprofResult) {
-      echo "Query execution failed: " . mysqli_error($conn);
-      exit;
-    }
-
-    // Check if the selected School_ID matches the user's School_ID in either table
-    if (isset($_SESSION['School_ID'])) {
-      $selectedSchoolID = $_SESSION['School_ID'];
-
-      if (mysqli_num_rows($operatorResult) > 0 && $selectedSchoolID == mysqli_fetch_assoc($operatorResult)['School_ID']) {
-        // User is an operator manager
-        $_SESSION['Manager_ID'] = $userID;
-        $_SESSION['School_ID'] = $selectedSchoolID;
-        $_SESSION['username'] = $username;
-        header("Location: operator_manager_dashboard.php");
-        exit;
-      } elseif (mysqli_num_rows($studprofResult) > 0 && $selectedSchoolID == mysqli_fetch_assoc($studprofResult)['School_ID']) {
-        // User is a student or professor
-        $_SESSION['studprof_ID'] = $userID;
-        $_SESSION['School_ID'] = $selectedSchoolID;
-        $_SESSION['username'] = $username;
-        header("Location: user_dashboard.php");
-        exit;
-      } else {
-        echo "You are not registered in this school.";
-        exit;
-      }
+            if ($managerID) {
+                $_SESSION["Manager_ID"] = $managerID;
+                header("Location: operator_manager_dashboard.php");
+                exit;
+            } elseif ($studprofID) {
+                $_SESSION["studprof_ID"] = $studprofID;
+                header("Location: user_dashboard.php");
+                exit;
+            }
+        } else {
+            echo "<h1 style='text-align: center; color: white;'>You are not authorized to access this school.</h1>";
+        }
     } else {
-      echo "School ID is not set.";
-      exit;
+        echo "<h1 style='text-align: center; color: white;'>Invalid username or password.</h1>";
     }
-  } else {
-    echo "Invalid username or password.";
-    exit;
-  }
-} elseif (isset($_GET['School_ID'])) {
-  $_SESSION['School_ID'] = $_GET['School_ID'];
+    
 }
 ?>
+
 
 
 <!DOCTYPE html>

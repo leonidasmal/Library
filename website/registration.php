@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       echo '<div style="background-color: #d4edda; padding: 30px; border-radius: 10px; font-family: Arial, sans-serif; font-size: 32px; color: #155724; text-align: center; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"> Your registration as an operator manager will be considered by an admin. Please wait for confirmation. Thank you!</div>';  
       } else {
       $isProfessor = ($role == 'professor') ? 1 : 0;
-      $insertTeacherStudent = "INSERT INTO students_professors (studprof_id, first_name, last_name, email, Manager_ID, Is_Professor, Date_of_birth, School_ID, User_ID) VALUES ('', '$firstName', '$lastName', '$email', NULL, '$isProfessor', '$dateOfBirth', '$schoolID', '$userId')";
+      $insertTeacherStudent = "INSERT INTO students_professors (studprof_id, Is_Professor, Date_of_birth, School_ID, User_ID,Manager_ID) VALUES ('',  '$isProfessor', '$dateOfBirth', '$schoolID', '$userId',NULL)";
       mysqli_query($conn, $insertTeacherStudent);
       echo '<div style="background-color: #d4edda; padding: 30px; border-radius: 10px; font-family: Arial, sans-serif; font-size: 32px; color: #155724; text-align: center; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">Registration complete! Thank you for registering. Your account request is pending for approval by the operation manager of your school. Please wait for confirmation. Thank you!</div>';
      

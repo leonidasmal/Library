@@ -1,14 +1,16 @@
 <?php
 include("connect.php");
 session_start();
-$managerID=$_SESSION['Manager_ID'] ;
+$managerID = $_SESSION['Manager_ID'];
+
+var_dump($managerID);
 if (isset($_POST['approve'])) {
   $id = $_POST['User_ID'];
-  $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
+  $query = "UPDATE users SET approved='1' WHERE User_ID='$id'";
   $result = mysqli_query($conn, $query);
 
   if ($result) {
-      // User status update successful
+      // User appoved update successful
       $managerID = $_SESSION['Manager_ID'];
       $updateManagerQuery = "UPDATE students_professors SET Manager_ID='$managerID' WHERE User_ID='$id'";
       $updateManagerResult = mysqli_query($conn, $updateManagerQuery);
@@ -25,7 +27,7 @@ if (isset($_POST['approve'])) {
           echo "Error updating students_professors: " . mysqli_error($conn);
       }
   } else {
-      // Error updating user status
+      // Error updating user approved
       echo "Error approving user: " . mysqli_error($conn);
   }
 }
@@ -85,11 +87,12 @@ if (isset($_POST['deny'])) {
             <th>Action</th>
           </tr>
           <?php
-          $query = "SELECT u.User_ID, u.username, sp.is_Professor, sp.first_name, sp.last_name, su.school_name
-                  FROM users u
-                  JOIN students_professors sp ON u.User_ID = sp.User_ID
-                  JOIN school_unit su ON sp.school_ID = su.school_ID
-                  WHERE u.status='pending'";
+          $query = "SELECT u.User_ID, u.username, sp.is_Professor, u.first_name, u.last_name, su.school_name
+          FROM users u
+          JOIN students_professors sp ON u.User_ID = sp.User_ID
+          JOIN school_unit su ON sp.school_ID = su.school_ID
+          JOIN school_unit_manager sm ON sm.Manager_ID = '$managerID' AND sm.School_ID = su.school_ID
+          WHERE u.approved='0'";
           $result = mysqli_query($conn, $query);
           if (!$result) {
               echo "Error fetching user registrations: " . mysqli_error($conn);
