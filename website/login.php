@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $managerSchoolID = $userRow["School_ID"];
 
         if (($managerID && $managerSchoolID == $selectedSchoolID) || ($studprofID && $studentProfessorSchoolID == $selectedSchoolID)) {
-            $_SESSION["User_ID"] = $userID;
-
+          $_SESSION["User_ID"] = $userID;
+          $_SESSION["username"] = $username;
             if ($managerID) {
                 $_SESSION["Manager_ID"] = $managerID;
                 header("Location: operator_manager_dashboard.php");
