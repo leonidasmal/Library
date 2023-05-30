@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
   $username = $_POST["username"];
   $password = $_POST["password"];
 
-  $userQuery = "SELECT u.User_ID, sp.studprof_id, sm.Manager_ID, sp.School_ID, sm.School_ID, u.approved,sm.Accepted
+  $userQuery = "SELECT u.User_ID, sp.studprof_id, sm.Manager_ID, sp.School_ID AS sp_School_ID, sm.School_ID AS sm_School_ID, u.approved
                 FROM users u
                 LEFT JOIN students_professors sp ON u.User_ID = sp.User_ID
                 LEFT JOIN school_unit_manager sm ON u.User_ID = sm.User_ID
@@ -27,19 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
     $userID = $userRow["User_ID"];
     $studprofID = $userRow["studprof_id"];
     $managerID = $userRow["Manager_ID"];
-    $studentProfessorSchoolID = $userRow["School_ID"];
-    $managerSchoolID = $userRow["School_ID"];
+    $studentProfessorSchoolID = $userRow["sp_School_ID"];
+    $managerSchoolID = $userRow["sm_School_ID"];    
     $approved=$userRow["approved"];
-    $accepted=$userRow["Accepted"];
-
-    if ($approved == 1 && (($managerID && $managerSchoolID == $selectedSchoolID) || ($accepted==1 && $studprofID && $studentProfessorSchoolID == $selectedSchoolID))) {
+  
+    if ($approved == 1 && (($managerID && $managerSchoolID == $selectedSchoolID) || ($studprofID && $studentProfessorSchoolID == $selectedSchoolID))){
       $_SESSION["User_ID"] = $userID;
       $_SESSION["username"] = $username;
       if ($managerID) {
         $_SESSION["Manager_ID"] = $managerID;
         header("Location: operator_manager_dashboard.php");
         exit;
-      } elseif ($studprofID) {
+      } elseif($studprofID){
         $_SESSION["studprof_id"] = $studprofID;
         header("Location: user_dashboard.php");
         exit;
@@ -47,7 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
     } elseif ($approved == 0) {
       echo "<h1 style='text-align: center; color: white;'>Your account is not approved yet.</h1>";
     } else {
-      echo "<h1 style='text-align: center; color: white;'>You are not authorized to access this school.</h1>";
+      echo "<h1 style='text-align: center; color: white;'>You are not authorized to access this school. </h1>";
+      echo "<h1 style='text-align: center; color: white;'> $studprofID </h1>";
+      echo "<h1 style='text-align: center; color: white;'> $studentProfessorSchoolID </h1>";
     }
   } else {
     echo "<h1 style='text-align: center; color: white;'>Invalid username or password.</h1>";
