@@ -12,7 +12,11 @@ if (isset($_POST['approve'])) {
   if ($result) {
       // User appoved update successful
       $managerID = $_SESSION['Manager_ID'];
-      $updateManagerQuery = "UPDATE students_professors SET Manager_ID='$managerID' WHERE User_ID='$id'";
+      $updateManagerQuery = "UPDATE Borrower_Card
+      INNER JOIN School_Unit_Manager ON Borrower_Card.Manager_ID = School_Unit_Manager.Manager_ID
+      INNER JOIN Students_Professors ON Borrower_Card.studprof_id = Students_Professors.studprof_id
+      SET Borrower_Card.Manager_ID = '$managerID'
+      WHERE Students_Professors.User_ID = '$id'";
       $updateManagerResult = mysqli_query($conn, $updateManagerQuery);
 
       if ($updateManagerResult) {
