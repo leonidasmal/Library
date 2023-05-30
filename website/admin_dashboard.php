@@ -45,7 +45,7 @@ if (!isset($_SESSION['admin'])) {
       
 <div class="card">
   <h3>Overview Registrations</h3>
-  <a href="admin.php?Manager_ID=<?php echo $_SESSION['Admin_ID']; ?>">Approve/Deny Users</a>
+  <a href="admin.php?Admin_ID=<?php echo $_SESSION['Admin_ID']; ?>">Approve/Deny Users</a>
 </div>
 
   </div>

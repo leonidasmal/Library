@@ -2,6 +2,7 @@
 include("connect.php");
 session_start();
 $adminID= $_SESSION['Admin_ID'];
+var_dump($adminID);
 if (isset($_POST['approve'])) {
     $id = $_POST['User_ID'];
     $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
@@ -12,7 +13,7 @@ if (isset($_POST['approve'])) {
        
         $updateQuery = "UPDATE school_unit_manager SET Admin_ID='$adminID' WHERE User_ID='$id'";
         $updateResult = mysqli_query($conn, $updateQuery);
-        header("Location: admin.php");
+        header("Location: admin.php?Admin_ID=".$adminID);
         echo '<script type="text/javascript">';
         echo 'alert("Operator Approved!");';
         echo 'window.location.reload();';
@@ -30,9 +31,8 @@ if (isset($_POST['deny'])) {
     $deleteQuery = "DELETE FROM school_unit_manager WHERE User_ID='$id'";
     $deleteResult = mysqli_query($conn, $deleteQuery);
     if (!$deleteResult) {
-        header("Location: admin.php");
+        header("Location: admin.php?Admin_ID=");
         echo "Error deleting corresponding  " . mysqli_error($conn);
-        header("Location: manager.php");
         exit;
     }
 
@@ -75,11 +75,11 @@ if (isset($_POST['deny'])) {
             <th>Action</th>
           </tr>
           <?php
-          $query = "SELECT m.Manager_ID, u.User_ID, u.username, m.first_Name, m.Last_name, su.school_name
+          $query = "SELECT m.Manager_ID, u.User_ID, u.username, u.first_Name, u.Last_name, su.school_name
                   FROM users u
                   JOIN school_unit_manager m ON u.User_ID = m.User_ID
                   JOIN school_unit su ON m.School_ID = su.School_ID
-                  WHERE u.status='pending'";
+                  WHERE u.approved=0";
           $result = mysqli_query($conn, $query);
           if (!$result) {
               echo "Error fetching user registrations: " . mysqli_error($conn);
@@ -94,7 +94,7 @@ if (isset($_POST['deny'])) {
                 <td><?php echo $row['Last_name']; ?></td>
                 <td><?php echo $row['school_name']; ?></td>
                 <td>
-                  <form action="manager.php" method="POST">
+                  <form action="admin.php" method="POST">
                     <input type="hidden" name="User_ID" value="<?php echo $row['User_ID']; ?>">
                     <button type="submit" name="approve">Approve</button>
                     <button type="submit" name="deny" class="btn-red">Deny</button>
