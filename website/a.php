@@ -203,39 +203,30 @@ if (isset($_POST['deny'])) {
           echo "</tr>";
         }
 
-        if (isset($_POST['approve'])) {
-          $reviewID = $_POST['review_id'];
-          $query = "UPDATE reviews SET approved='1' WHERE review_id='$reviewID'";
-          $result = mysqli_query($conn, $query);
-
-          if ($result) {
-            // Review approved update successful
-            echo '<script type="text/javascript">';
-            echo 'alert("Review Approved!");';
-            echo 'window.location.reload();';
-            echo '</script>';
-          } else {
-            // Error updating review approved
-            echo "Error approving review: " . mysqli_error($conn);
-          }
-        }
-
         if (isset($_POST['deny'])) {
-          $reviewID = $_POST['review_id'];
-
-          // Delete the review from the reviews table
-          $deleteQuery = "DELETE FROM reviews WHERE review_id='$reviewID'";
-          $deleteResult = mysqli_query($conn, $deleteQuery);
-
-          if ($deleteResult) {
-            // Review denied successfully
-            echo '<script type="text/javascript">';
-            echo 'alert("Review denied");';
-            echo 'window.location.reload();';
-            echo '</script>';
-          } else {
-            echo "Error deleting review: " . mysqli_error($conn);
-          }
+            $id = $_POST['User_ID'];
+        
+            // Delete corresponding rows from students_professors table
+            $deleteQuery = "DELETE FROM students_professors WHERE User_ID='$id'";
+            $deleteResult = mysqli_query($conn, $deleteQuery);
+            if (!$deleteResult) {
+                echo "Error deleting corresponding rows from students_professors table: " . mysqli_error($conn);
+                header("Location: manager.php");
+                exit;
+            }
+        
+            // Delete the user from the users table
+            $deleteUserQuery = "DELETE FROM users WHERE User_ID='$id'";
+            $deleteUserResult = mysqli_query($conn, $deleteUserQuery);
+            if ($deleteUserResult) {
+                header("Location: manager.php");
+                echo '<script type="text/javascript">';
+                echo 'alert("User denied ");';
+                echo 'window.location.reload();';
+                echo '</script>';
+            } else {
+                echo "Error deleting user: " . mysqli_error($conn);
+            }
         }
         ?>
       </table>
