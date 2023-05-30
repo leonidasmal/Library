@@ -1,8 +1,115 @@
+<?php
+session_start();
+include('connect.php');
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $_SESSION["username"] = $username;
+
+  // Check if the login is for a regular user
+  $userQuery = "SELECT User_ID FROM users WHERE username='$username' AND user_password='$password'";
+  $userResult = mysqli_query($conn, $userQuery);
+
+  if (!$userResult) {
+    echo "Query execution failed: " . mysqli_error($conn);
+    exit;
+  }
+
+  if (mysqli_num_rows($userResult) > 0) {
+    // User login successful
+    $row = mysqli_fetch_assoc($userResult);
+    $userId = $row['User_ID'];
+
+    // Check if the user ID matches an admin in the administrator table
+    $adminQuery = "SELECT Admin_ID FROM administrator WHERE User_ID='$userId'";
+    $adminResult = mysqli_query($conn, $adminQuery);
+
+    if (!$adminResult) {
+      echo "Query execution failed: " . mysqli_error($conn);
+      exit;
+    }
+
+    if (mysqli_num_rows($adminResult) > 0) {
+      // Admin login successful
+      $adminRow = mysqli_fetch_assoc($adminResult);
+      $adminId = $adminRow['Admin_ID'];
+
+      $_SESSION['admin'] = true;
+      $_SESSION['Admin_ID'] = $adminId; // Save the Admin_ID in the session
+
+      header("Location: admin_dashboard.php"); // Redirect to the admin_dashboard.php page
+      exit;
+    } else {
+      // User is not an admin
+      echo "Error: You are not an admin.";
+      exit;
+    }
+  } else {
+    // Invalid username or password
+    echo "Error: Invalid username or password.";
+    exit;
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
   <title>Login</title>
+  <style>
+  body {
+      background-color:  #000; padding: 20px;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color:  #FFFFFF;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: left; /* Center the contents */
+    }
+    .container h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .form-group {
+        font-family: "Your Custom Font", Arial, sans-serif; /* Specify your desired font family */
+      margin-bottom: 20px;
+      text-align: left; 
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    .form-group input {
+      width: 350px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+    .form-group input[type="submit"] {
+      background-color: #000;
+      display: block;
+      margin: 0 auto;
+      /* Change the color to your desired color */
+      color: #fff;
+      cursor: pointer;
+    }
+    .form-group input[type="submit"]:
 
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
   <style>
   body {
       background-color:  #000; padding: 20px;
@@ -135,50 +242,3 @@
   </div>
 </body>
 </html>
-
-<?php
-session_start();
-include('connect.php');
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-
-// Check if the login is for a regular user
-$userQuery = "SELECT User_ID FROM users WHERE username='$username' AND user_password='$password'";
-$userResult = mysqli_query($conn, $userQuery);
-if (!$userResult) {
-    echo "Query execution failed: " . mysqli_error($conn);
-    exit;
-  }
-  if (mysqli_num_rows($userResult) > 0) {
-    // User login successful
-    $row = mysqli_fetch_assoc($userResult);
-    $userId = $row['User_ID'];
-
-    // Check if the user ID matches an admin in the administrator table
-    $adminQuery = "SELECT * FROM administrator WHERE User_ID='$userId'";
-    $adminResult = mysqli_query($conn, $adminQuery);
-
-    if (!$adminResult) {
-        echo "Query execution failed: " . mysqli_error($conn);
-        exit;
-      }
-  
-      if (mysqli_num_rows($adminResult) > 0) {
-        // Admin login successful
-        $_SESSION['admin'] = true;
-        header("Location: admin_dashboard.php");
-        exit;
-      } else {
-        // User is not an admin
-        echo "Error: You are not an admin.";
-        exit;
-      }
-    } else {
-      // Invalid username or password
-      echo "Error: Invalid username or password.";
-      exit;
-    }
-  }
-  ?>
