@@ -57,17 +57,28 @@ if (isset($_POST['deny'])) {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="manager_app.css">
+    <link rel="stylesheet" type="text/css" href="admin.css">
 
     <title>Manager Approval</title>
   </head>
+  <header>
+  <div class="logo">Library</div>
+  <nav>
+    <ul>
+    <li><a href="admin_dashboard.php">Home</a></li>
+      <li><a href="#">Library Events</a></li>
+     
+      <li><a href="front_page.php">Log out</a></li> <!-- Add logout link with query parameter -->    </ul>
+  </nav>
+</header>
+
   <body>
     <div class="center">
       <div class="container">
         <h1>Manager Approval</h1>
         <table>
           <tr>
-            <th>Id</th>
+            <th>User ID</th>
             <th>Username</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -96,8 +107,8 @@ if (isset($_POST['deny'])) {
                 <td>
                   <form action="admin.php" method="POST">
                     <input type="hidden" name="User_ID" value="<?php echo $row['User_ID']; ?>">
-                    <button type="submit" name="approve">Approve</button>
-                    <button type="submit" name="deny" class="btn-red">Deny</button>
+                    <button type="submit" name="approve" class="btn-approve">Approve</button>
+          <button type="submit" name="deny" class="btn-deny">Deny</button>
                   </form>
                 </td>
               </tr>
@@ -105,5 +116,8 @@ if (isset($_POST['deny'])) {
         </table>
       </div>
     </div>
-  </body>
+    <footer>
+  <p>&copy; 2023 Library. All rights reserved.</p>
+</footer>
+</body>
 </html>

@@ -2,9 +2,17 @@
 
 include('connect.php');
 session_start();
+// Check if the user is logged in and the School_ID is set in the session
+if (!isset($_SESSION['username']) || !isset($_SESSION['School_ID'])) {
+  header("Location: front_page.php");
+  exit;
+}
+
+$schoolID = $_SESSION['School_ID'];
+
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
-  header("Location: login.php");
+  header("Location: front_page.php");
   exit;
 }
 
@@ -31,7 +39,7 @@ if (isset($_GET['logout'])) {
   <nav>
     <ul>
     <li><a href="user_dashboard.php">Home</a></li>
-      <li><a href="search_book.php">Search Books</a></li>      
+    <li><a href="user_view_books.php?School_ID=<?php echo $_SESSION['School_ID']; ?>">Search Books</a></li>
       <li><a href="view_account.php">My Account</a></li> <!-- Updated link -->
       <li><a href="#">Library Events</a></li>
       <li><a href="contact_us.php">Contact Us</a></li>
@@ -44,6 +52,7 @@ if (isset($_GET['logout'])) {
 <section class="main-content">
   <div class="container">
     <h2>Welcome <?php echo $_SESSION['username']; ?>!</h2>
+    <p>Your School ID: <?php echo $schoolID; ?></p> <!-- Print the School_ID variable here -->
     <div class="dashboard-cards">
       <div class="card">
         <h3>Borrowed Books</h3>

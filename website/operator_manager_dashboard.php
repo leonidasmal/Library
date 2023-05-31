@@ -11,7 +11,7 @@ var_dump($managerID);
 // Logout functionality
 if (isset($_GET['logout'])) {
   session_destroy(); // Destroy all session data
-  header("Location: login.php");
+  header("Location: front_page.php");
   exit;
 }
 
@@ -33,8 +33,8 @@ if (isset($_GET['logout'])) {
     <li><a href="operator_manager_dashboard.php">Home</a></li>
       <li><a href="#">Library Events</a></li>
       <li><a href="contact_us.php">Contact Us</a></li>
-      <li><a href="?logout">Log Out</a></li> <!-- Add logout link with query parameter -->    </ul>
-  </nav>
+      <li><a href="front_page.php">Log out</a></li>  </ul>
+      </nav>
 </header>
 
 
@@ -50,7 +50,7 @@ if (isset($_GET['logout'])) {
 </div>
       <div class="card">
         <h3>Overview Loans</h3>
-        <a href="manage_reservations.php">Manage loan books</a>
+        <a href="manage_loans.php">Manage loan books</a>
       </div>
       <div class="card">
   <h3>Overview Reservations</h3>
@@ -63,7 +63,7 @@ if (isset($_GET['logout'])) {
 
 <div class="card">
   <h3>Manage Reviews</h3>
-  <a href="manager.php">See student reviews</a>
+  <a href="a.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">See student reviews</a>
 </div>
   </div>
 </section>

@@ -81,50 +81,7 @@ session_start();
       height: auto;
     }
   </style>
-  <script>
-    function deleteBook(bookID) {
-      if (confirm("Are you sure you want to delete this book?")) {
-        // Redirect to the delete book page with the book ID
-        window.location.href = "delete_book.php?Book_ID=" + bookID;
-      }
-    }
 
-    function openEditBookModal(bookID) {
-      var modal = document.getElementById("editBookModal");
-      var modalContent = document.getElementById("editBookModalContent");
-      var iframe = document.getElementById("editBookFrame");
-
-      var editURL = "edit_book.php?Book_ID=" + bookID;
-
-      // Set the iframe source to the editURL
-      iframe.src = editURL;
-
-      // Reset the height of the modal content
-      modalContent.style.height = "auto";
-
-      // Display the modal
-      modal.style.display = "block";
-
-      // Adjust the modal height based on the content inside the iframe
-      iframe.onload = function() {
-        var iframeBody = iframe.contentDocument.body;
-        var iframeHeight = iframeBody.scrollHeight + 40; // Add extra padding
-
-        modalContent.style.height = iframeHeight + "px";
-      };
-    }
-
-    function closeEditBookModal() {
-      var modal = document.getElementById("editBookModal");
-
-      // Hide the modal
-      modal.style.display = "none";
-
-      // Reset the iframe source
-      var iframe = document.getElementById("editBookFrame");
-      iframe.src = "";
-    }
-  </script>
 </head>
 <body>
 
@@ -190,8 +147,11 @@ if (isset($_GET['School_ID'])) {
           <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
         </div>
         <div class="action-buttons">
-          <button onclick="openEditBookModal(<?php echo $book['Book_ID']; ?>)">Edit</button>
-          <button onclick="deleteBook(<?php echo $book['Book_ID']; ?>)">Delete</button>
+        
+  <button onclick="makeLoan(<?php echo $book['Book_ID']; ?>)">Make a Loan for this book</button>
+  <button onclick="makeReview(<?php echo $book['Book_ID']; ?>)">Make a Review for this book</button>
+  <button onclick="makeReservation(<?php echo $book['Book_ID']; ?>)">Make a Reservation for this book</button>
+
 
         </div>
       </div>
@@ -206,14 +166,6 @@ if (isset($_GET['School_ID'])) {
 }
 ?>
 
-<!-- Edit Book Modal -->
-<div id="editBookModal" class="modal">
-  <div class="modal-content" id="editBookModalContent">
-    <span class="close" onclick="closeEditBookModal()">&times;</span>
-    <iframe id="editBookFrame" frameborder="0"></iframe>
-  </div>
-</div>
-<a href="add_book.php?School_ID=<?php echo $schoolID; ?>">Add a Book</a>
 
 </body>
 </html>

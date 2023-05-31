@@ -80,9 +80,16 @@ nav ul li a {
 
 /* Footer Styles */
 
-footer {
-  font-size: 20px;
-  padding: 10px;
-  text-align: center;
-  background-color: #f2f2f2;
-}
+.copyright {
+    font-size: 20px;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+  }
+  footer {
+    font-size: 20px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f2f2f2;
+  }
+  

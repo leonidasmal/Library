@@ -40,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
         exit;
       } elseif($studprofID){
         $_SESSION["studprof_id"] = $studprofID;
+        $_SESSION["School_ID"] = $studentProfessorSchoolID;
+
         header("Location: user_dashboard.php");
         exit;
       }

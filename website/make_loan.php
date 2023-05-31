@@ -185,6 +185,7 @@ if (isset($_GET['School_ID'])) {
         <h3 class="book-title secondary-color"><?php echo $book['title']; ?></h3>
         <div class="book-info">
           <p><strong>Number of pages:</strong> <?php echo $book['pg_numbers']; ?></p>
+          <p><strong>Available Copies:</strong></p>
           <p><strong>Language:</strong> <?php echo $book['language_name']; ?></p>
           <p><strong>Author:</strong> <?php echo $book['authors']; ?></p>
           <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
@@ -192,19 +193,17 @@ if (isset($_GET['School_ID'])) {
         <div class="action-buttons">
           <button onclick="openEditBookModal(<?php echo $book['Book_ID']; ?>)">Edit</button>
           <button onclick="deleteBook(<?php echo $book['Book_ID']; ?>)">Delete</button>
-
         </div>
       </div>
     </div>
-    
     <hr>
-
   <?php
   }
 } else {
   echo "Invalid school ID";
 }
 ?>
+
 
 <!-- Edit Book Modal -->
 <div id="editBookModal" class="modal">
@@ -213,7 +212,6 @@ if (isset($_GET['School_ID'])) {
     <iframe id="editBookFrame" frameborder="0"></iframe>
   </div>
 </div>
-<a href="add_book.php?School_ID=<?php echo $schoolID; ?>">Add a Book</a>
 
 </body>
 </html>
