@@ -5,7 +5,7 @@ $adminID= $_SESSION['Admin_ID'];
 var_dump($adminID);
 if (isset($_POST['approve'])) {
     $id = $_POST['User_ID'];
-    $query = "UPDATE users SET status='approved' WHERE User_ID='$id'";
+    $query = "UPDATE users SET approved='1' WHERE User_ID='$id'";
     $result = mysqli_query($conn, $query);
     $updateQuery = "UPDATE school_unit_manager SET Admin_ID='$adminID' WHERE User_ID='$id'";
     $updateResult = mysqli_query($conn, $updateQuery);
