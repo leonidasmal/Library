@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Users (
     Email VARCHAR(255)  NOT NULL,
     first_name  VARCHAR(45) NOT NULL,
 	last_name VARCHAR(45) NOT NULL,
-  approved INT NOT NULL CHECK (approved IN (0, 1, 2))
+    approved INT NOT NULL DEFAULT 0 CHECK (approved IN (0, 1, 2))
   PRIMARY KEY (User_ID),
     CONSTRAINT unique_email UNIQUE (Email)
 );
