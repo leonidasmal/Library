@@ -217,6 +217,7 @@ if (isset($_SESSION['School_ID'])) {
             <p><strong>Language:</strong> <?php echo $book['language_name']; ?></p>
             <p><strong>Author:</strong> <?php echo $book['authors']; ?></p>
             <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
+            <p><strong>Keywords:</strong> <?php echo $book['keyword']; ?></p>
             <p><strong>Available Copies:</strong> <?php echo $book['Available_Copies']; ?></p>
           </div>
           <div class="action-buttons">
