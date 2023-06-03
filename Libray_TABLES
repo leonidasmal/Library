@@ -24,12 +24,12 @@ PRIMARY KEY (School_ID) );
 CREATE TABLE IF NOT EXISTS Users (
     User_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL UNIQUE,
-    user_password VARCHAR(255) NOT NULL,
-    Email VARCHAR(255)  NOT NULL,
-    first_name  VARCHAR(45) NOT NULL,
-last_name VARCHAR(45) NOT NULL,
- approved INT NOT NULL DEFAULT 0 CHECK (approved IN (0, 1, 2))
- PRIMARY KEY (User_ID),
+user_password VARCHAR(255) NOT NULL,
+Email VARCHAR(255)  NOT NULL,
+first_name  VARCHAR(45) NOT NULL,
+    last_name VARCHAR(45) NOT NULL,
+approved INT NOT NULL DEFAULT 0 CHECK (approved IN (0, 1, 2)),
+PRIMARY KEY (User_ID),
     CONSTRAINT unique_email UNIQUE (Email)
 );
 
@@ -252,7 +252,7 @@ CREATE TABLE IF NOT EXISTS Review(
     Book_id INT UNSIGNED NOT NULL,
     User_ID INT UNSIGNED NOT NULL,
     Manager_ID INT UNSIGNED NOT NULL,
-    likert_scale VARCHAR(50) NOT NULL,
+    likert_scale INT NOT NULL,
     approved BOOLEAN DEFAULT 0,
     review TEXT, 
     CONSTRAINT fk_Rating_Book_ID FOREIGN KEY (book_id)
@@ -483,7 +483,6 @@ END //
 
 
 DELIMITER ;
-
 
 
 
