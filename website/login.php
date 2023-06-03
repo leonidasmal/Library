@@ -28,20 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
     $studprofID = $userRow["studprof_id"];
     $managerID = $userRow["Manager_ID"];
     $studentProfessorSchoolID = $userRow["sp_School_ID"];
-    $managerSchoolID = $userRow["sm_School_ID"];    
-    $approved=$userRow["approved"];
-  
-    if ($approved == 1 && (($managerID && $managerSchoolID == $selectedSchoolID) || ($studprofID && $studentProfessorSchoolID == $selectedSchoolID))){
+    $managerSchoolID = $userRow["sm_School_ID"];
+    $approved = $userRow["approved"];
+
+    if ($approved == 1 && (($managerID && $managerSchoolID == $selectedSchoolID) || ($studprofID && $studentProfessorSchoolID == $selectedSchoolID))) {
+ 
+      $_SESSION["session_token"] = $sessionToken;
       $_SESSION["User_ID"] = $userID;
       $_SESSION["username"] = $username;
+
       if ($managerID) {
         $_SESSION["Manager_ID"] = $managerID;
+        
         header("Location: operator_manager_dashboard.php");
         exit;
-      } elseif($studprofID){
+      } elseif ($studprofID) {
         $_SESSION["studprof_id"] = $studprofID;
         $_SESSION["School_ID"] = $studentProfessorSchoolID;
 
+        
         header("Location: user_dashboard.php");
         exit;
       }
@@ -88,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION["School_ID"])) {
       <input type="submit" value="Log in">
     </div>
   </form>
-  
+
   <div class="input-group">
     <p>New user? <a href="registration.php">Register here</a></p>
   </div>

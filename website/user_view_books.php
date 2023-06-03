@@ -1,6 +1,7 @@
 <?php
 include("connect.php");
 session_start();
+unset($_SESSION['Book_ID']);
 ?>
 
 <!DOCTYPE html>
@@ -86,9 +87,28 @@ session_start();
 <body>
 
 <?php
+
+// Retrieve the search criteria
+$searchTitle = isset($_POST['search_title']) ? $_POST['search_title'] : '';
+$searchCategory = isset($_POST['search_category']) ? $_POST['search_category'] : '';
+$searchAuthor = isset($_POST['search_author']) ? $_POST['search_author'] : '';
+
+
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['Book_ID'])) {
+  $_SESSION['Book_ID'] = $_POST['Book_ID'];
+  header("Location: make_reservation.php"); // Redirect to make_reservation.php after storing the book ID in the session
+  exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['R_Book_ID'])) {
+  $_SESSION['Book_ID'] = $_POST['R_Book_ID'];
+  header("Location: make_review.php"); // Redirect to make_review.php after storing the book ID in the session
+  exit;
+}
 // Retrieve the school_id parameter
-if (isset($_GET['School_ID'])) {
-  $schoolID = $_GET['School_ID'];
+if (isset($_SESSION['School_ID'])) {
+  $schoolID = $_SESSION['School_ID'];
 
   // Query to fetch the details of the selected school
   $schoolDetailsQuery = "SELECT * FROM school_unit WHERE School_ID = ?";
@@ -111,13 +131,36 @@ if (isset($_GET['School_ID'])) {
     <p><strong>School Name:</strong> <?php echo $schoolDetails['School_name']; ?></p>
     <p><strong>School Address:</strong> <?php echo $schoolDetails['address']; ?></p>
   </div>
+  <form method="POST">
+      <input type="hidden" name="School_ID" value="<?php echo $schoolID; ?>">
+      <input type="text" name="search_title" placeholder="Search by Title" value="<?php echo $searchTitle; ?>">
+      <input type="text" name="search_category" placeholder="Search by Category" value="<?php echo $searchCategory; ?>">
+      <input type="text" name="search_author" placeholder="Search by Author" value="<?php echo $searchAuthor; ?>">
+      <button type="submit">Search</button>
+    </form>
   <?php
   // Query to fetch the books and their details
   $booksQuery = "SELECT * FROM book_details bdv INNER JOIN school_book sb ON sb.Book_ID = bdv.Book_ID WHERE sb.School_ID = ?";
+  // Add search conditions based on the provided criteria
+  if (!empty($searchTitle)) {
+    $booksQuery .= " AND bdv.title LIKE '%$searchTitle%'";
+  }
+
+  if (!empty($searchCategory)) {
+    $booksQuery .= " AND bdv.categories LIKE '%$searchCategory%'";
+  }
+
+  if (!empty($searchAuthor)) {
+    $booksQuery .= " AND bdv.authors LIKE '%$searchAuthor%'";
+  }
+  
+  
   $booksStmt = mysqli_prepare($conn, $booksQuery);
   mysqli_stmt_bind_param($booksStmt, 'i', $schoolID);
   mysqli_stmt_execute($booksStmt);
   $booksResult = mysqli_stmt_get_result($booksStmt);
+
+
 
   if (!$booksResult) {
     echo "Query execution failed: " . mysqli_error($conn);
@@ -147,11 +190,14 @@ if (isset($_GET['School_ID'])) {
           <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
         </div>
         <div class="action-buttons">
-        
-  <button onclick="makeLoan(<?php echo $book['Book_ID']; ?>)">Make a Loan for this book</button>
-  <button onclick="makeReview(<?php echo $book['Book_ID']; ?>)">Make a Review for this book</button>
-  <button onclick="makeReservation(<?php echo $book['Book_ID']; ?>)">Make a Reservation for this book</button>
-
+        <form action="" method="post">
+          <input type="hidden" name="R_Book_ID" value="<?php echo $book['Book_ID']; ?>">
+          <button type="submit">Make a Review for this book</button>
+        </form>
+        <form action="" method="post">
+          <input type="hidden" name="Book_ID" value="<?php echo $book['Book_ID']; ?>">
+          <button type="submit">Make a Reservation</button>
+        </form>
 
         </div>
       </div>
@@ -166,6 +212,9 @@ if (isset($_GET['School_ID'])) {
 }
 ?>
 
+<form action="user_dashboard.php" method="get">
+<input type="submit" value="Back">
+</form>
 
 </body>
 </html>

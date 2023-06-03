@@ -2,6 +2,8 @@
 
 include('connect.php');
 session_start();
+
+
 // Check if the user is logged in and the School_ID is set in the session
 if (!isset($_SESSION['username']) || !isset($_SESSION['School_ID'])) {
   header("Location: front_page.php");
@@ -39,7 +41,7 @@ if (isset($_GET['logout'])) {
   <nav>
     <ul>
     <li><a href="user_dashboard.php">Home</a></li>
-    <li><a href="user_view_books.php?School_ID=<?php echo $_SESSION['School_ID']; ?>">Search Books</a></li>
+    <li><a href="user_view_books.php">Search Books</a></li>
       <li><a href="view_account.php">My Account</a></li> <!-- Updated link -->
       <li><a href="#">Library Events</a></li>
       <li><a href="contact_us.php">Contact Us</a></li>
@@ -55,14 +57,14 @@ if (isset($_GET['logout'])) {
     <p>Your School ID: <?php echo $schoolID; ?></p> <!-- Print the School_ID variable here -->
     <div class="dashboard-cards">
       <div class="card">
-        <h3>Borrowed Books</h3>
-        <p>See the books you have currently borrowed.</p>
-        <a href="#">View Borrowed Books</a>
+        <h3>Όλοι οι δανεισμοί</h3>
+        <p>Δες όλα τα βιβλία που έχεις δανειστεί.</p>
+        <a href="get_borrowed_books.php">Δες τα εδώ!</a>
       </div>
       <div class="card">
-        <h3>Place Hold Requests</h3>
-        <p>Request and manage holds on books.</p>
-        <a href="#">Place Hold Requests</a>
+        <h3>Κάνε κράστηση</h3>
+        <p>Ξέρεις ήδη ποιο βιβλίο θες?</p>
+        <a href="make_reservation.php">Κλίκαρε εδώ!</a>
       </div>
     </div>
   </div>

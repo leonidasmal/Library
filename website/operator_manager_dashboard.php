@@ -1,6 +1,8 @@
 <?php
 include('connect.php');
+
 session_start();
+
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
   header("Location: login.php");
@@ -46,7 +48,7 @@ if (isset($_GET['logout'])) {
 
     <div class="card">
   <h3>Overview Books</h3>
-  <a href="school_details.php?School_ID=<?php echo $_SESSION['School_ID']; ?>">View books</a>
+  <a href="school_details.php">View books</a>
 </div>
       <div class="card">
         <h3>Overview Loans</h3>
@@ -55,18 +57,28 @@ if (isset($_GET['logout'])) {
       <div class="card">
   <h3>Overview Reservations</h3>
   <a href="manage_reservations.php">Manage reservations on books</a>
-</div>
-<div class="card">
-  <h3>Overview Registrations</h3>
-  <a href="manager.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">Approve/Deny Users</a>
-</div>
+    </div>
+    <div class="card">
+      <h3>Overview Registrations</h3>
+      <a href="manager.php">Approve/Deny Users</a>
+    </div>
 
-<div class="card">
-  <h3>Manage Reviews</h3>
-  <a href="a.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">See student reviews</a>
-</div>
+    <div class="card">
+      <h3>Manage Reviews</h3>
+      <a href="manage_reviews.php">See student reviews</a>
+    </div>
+
+    <div class="card">
+    <h3>Overview Users</h3>
+      <a href="manage_users.php">Manage users</a>
+    </div>
+
   </div>
+
+
+
 </section>
+
 
 <footer>
   <p>&copy; 2023 Library. All rights reserved.</p>
