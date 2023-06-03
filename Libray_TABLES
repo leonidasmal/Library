@@ -294,14 +294,12 @@ SELECT
     B.pg_numbers,
     B.summary,
     B.image_URL,
-    k.keyword,
+    B.keyword,
     l.language_name,
 	GROUP_CONCAT(DISTINCT A.author_fullname) AS authors,
     GROUP_CONCAT(DISTINCT C.category) AS categories
 FROM 
     Book B
-JOIN 
-	Book_Keyword k ON B.Book_ID = k.Book_ID
 JOIN 
 	Book_language l ON B.Language_ID = l.Language_ID
 JOIN 
