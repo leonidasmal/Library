@@ -24,9 +24,9 @@ if (!isset($_SESSION['admin'])) {
   <nav>
     <ul>
     <li><a href="admin_dashboard.php">Home</a></li>
+    <li><a href="view_account.php">My Account</a></li> <!-- Updated link -->
       <li><a href="#">Library Events</a></li>
-     
-      <li><a href="front_page.php">Log out</a></li> <!-- Add logout link with query parameter -->    </ul>
+      <li><a href="front_page.php">Log Out</a></li> <!-- Add logout link with query parameter -->    </ul>
   </nav>
 </header>
 
@@ -55,7 +55,7 @@ if (!isset($_SESSION['admin'])) {
   <a href="3.1.2.php">Select the Category</a>
 </div>
 <div class="card">
-  <h3>Young professors who have borrowed the most books in each school</h3>
+  <h3>Young professors who have borrowed the most.</h3>
   <a href="3.1.3.php">See the table</a>
 </div>
 <div class="card">
@@ -63,11 +63,11 @@ if (!isset($_SESSION['admin'])) {
   <a href="3.1.4.php">See the table</a>
 </div>
 <div class="card">
-  <h3>Authors whose books have not been borrowed.</h3>
+  <h3>Managers that have the same number of loans in a year, with more than 20 of them.</h3>
   <a href="3.1.5.php">See the table</a>
 </div>
 <div class="card">
-  <h3>Authors whose books have not been borrowed.</h3>
+  <h3>Top three pairs of category fields, in loaned books.</h3>
   <a href="3.1.6.php">See the table</a>
 </div>
 <div class="card">

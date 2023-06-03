@@ -84,5 +84,8 @@
         mysqli_close($conn);
     }
     ?>
+    <form action="admin_dashboard.php" method="get">
+<input type="submit" value="Back">
+</form>
 </body>
 </html>

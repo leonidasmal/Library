@@ -83,6 +83,9 @@ $result = mysqli_query($conn, $query);
         echo "No results found.";
     }
     ?>
+            <form action="admin_dashboard.php" method="get">
+<input type="submit" value="Back">
+</form>
 </body>
 </html>
 

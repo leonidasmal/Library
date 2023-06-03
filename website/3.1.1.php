@@ -82,6 +82,8 @@ if (isset($_GET['month']) && isset($_GET['year'])) {
     mysqli_stmt_close($stmt);
 }
     ?>
-
+<form action="admin_dashboard.php" method="get">
+<input type="submit" value="Back">
+</form>
 </body>
 </html>

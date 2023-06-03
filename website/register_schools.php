@@ -2,7 +2,6 @@
         session_start();
         include("connect.php");
         $adminID = $_SESSION['Admin_ID'];
-        var_dump($adminID);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,6 +71,17 @@
         <?php
         
         include("connect.php");
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['schoolID'])) {
+          $_SESSION['School_ID'] = $_POST['schoolID'];
+          header("Location: delete_school.php"); // Redirect to make_reservation.php after storing the book ID in the session
+          exit;
+        }
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['E_schoolID'])) {
+          $_SESSION['School_ID'] = $_POST['E_schoolID'];
+          header("Location: update_school.php"); // Redirect to make_reservation.php after storing the book ID in the session
+          exit;
+        }
        
         // Query to retrieve available schools
         $sql = "SELECT School_ID, School_name, address, city,Telephone,email,principal_fullname FROM school_unit";
@@ -88,8 +98,14 @@
             echo "<td>" . $row["email"] . "</td>";
             echo "<td>" . $row["principal_fullname"] . "</td>";
             echo "<td>";
-            echo "<button onclick='editSchool(" . $row["School_ID"] . ")'>Edit School</button>";
-            echo "<button onclick='deleteSchool(" . $row["School_ID"] . ")'>Delete School</button>";
+            echo "<form action='' method='post'>";
+            echo "<input type='hidden' name='E_schoolID' value='" . $row["School_ID"] . "'>";
+            echo "<input type='submit' value='Edit School'>";
+            echo "</form>";
+            echo "<form action='' method='post'>";
+            echo "<input type='hidden' name='schoolID' value='" . $row["School_ID"] . "'>";
+            echo "<input type='submit' value='Delete School'>";
+            echo "</form>";
             echo "</td>";
             echo "</tr>";
           }
@@ -109,16 +125,6 @@
   </div>
 
   <script>
-    function editSchool(schoolID) {
-      // Implement the logic to edit a school based on the school ID
-      // Redirect the user to the edit school page or display a form to edit the school details
-      window.location.href = "update_school.php?schoolID=" + schoolID;     }
-
-    function deleteSchool(schoolID) {
-      // Implement the logic to delete a school based on the school ID
-      // Prompt the user for confirmation before deleting the school
-      window.location.href = "delete_school.php";
-    }
 
     function addSchool() {
       // Implement the logic to add a new school
@@ -129,5 +135,6 @@
 <footer>
   <p>&copy; 2023 Library. All rights reserved.</p>
 </footer>
+
 </body>
 </html>

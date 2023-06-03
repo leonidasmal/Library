@@ -1,7 +1,9 @@
 <?php
 include("connect.php");
 session_start();
-$schoolID = $_GET['schoolID'];
+if (isset($_SESSION['School_ID'])) {
+  $schoolID = $_SESSION['School_ID'];
+}
 
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -84,5 +86,10 @@ if ($existingSchoolResult && mysqli_num_rows($existingSchoolResult) > 0) {
    
     <button type="submit" name="updateSchool">Update School</button>
   </form>
+
+  <form action="register_schools.php" method="get">
+<input type="submit" value="Back">
+</form>
+
 </body>
 </html>

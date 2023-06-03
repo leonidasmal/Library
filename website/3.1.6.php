@@ -5,8 +5,8 @@ include("connect.php");
 // Retrieve data from the database
 $query = "
     SELECT 
-        BC1.Category_ID AS Category1, 
-        BC2.Category_ID AS Category2, 
+        C1.category AS Category1, 
+        C2.category AS Category2, 
         COUNT(*) AS PairCount
     FROM 
         Loan L
@@ -14,6 +14,10 @@ $query = "
         Book_Category BC1 ON L.Book_ID = BC1.Book_ID
     JOIN 
         Book_Category BC2 ON L.Book_ID = BC2.Book_ID
+    JOIN
+        Category C1 ON BC1.Category_ID = C1.Category_ID
+    JOIN
+        Category C2 ON BC2.Category_ID = C2.Category_ID
     WHERE 
         BC1.Category_ID < BC2.Category_ID
     GROUP BY 
