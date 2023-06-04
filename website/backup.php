@@ -9,13 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     $conn->set_charset("utf8");
 
-    $tables = array();
+    $tables = array('School_Unit', 'Users', 'administrator','School_Unit_Manager','Book_Language',
+    'Book','Author','Book_Author','Category','Book_Category','School_Book','Register','students_professors','Borrower_Card',
+    'Loan','Reservation','Review');
     $sql = "SHOW TABLES";
     $query = $conn->query($sql);
     while ($row = $query->fetch_row()) {
         $tables[] = $row[0];
     }
-
+    
     $outsql = '';
     foreach ($tables as $table) {
         $sql = "SHOW CREATE TABLE $table";
