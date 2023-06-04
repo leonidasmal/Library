@@ -401,6 +401,19 @@ BEGIN
 	CALL change_count(NEW.Book_ID, s_id, -1);
 END//
 
+CREATE TRIGGER after_return_of_book_count
+BEFORE UPDATE ON Loan
+FOR EACH ROW
+BEGIN
+     DECLARE s_id INT;
+
+    SELECT m.School_ID INTO s_id
+    FROM School_Unit_Manager m
+    WHERE m.Manager_ID = NEW.Manager_ID;
+    IF NEW.date_returned IS NOT NULL THEN
+		CALL change_count(NEW.Book_ID, s_id, 1);
+    END IF;
+END //
 
 CREATE TRIGGER enforce_weekly_loan_limit
 BEFORE INSERT ON Loan
@@ -491,6 +504,13 @@ END //
 
 
 DELIMITER ;
+
+
+
+
+
+
+
 
 
 
