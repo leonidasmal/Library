@@ -7,7 +7,7 @@ unset($_SESSION['Book_ID']);
 <!DOCTYPE html>
 <html>
 <head>
-  <title>School Details</title>
+  <title>Search Books</title>
   <style>
     /* Modal styles */
     .modal {
@@ -126,11 +126,10 @@ if (isset($_SESSION['School_ID'])) {
   $schoolDetails = mysqli_fetch_assoc($schoolDetailsResult);
   ?>
   <div class="school-details">
-    <h2 class="primary-color">School Details</h2>
-    <p><strong>School ID:</strong> <?php echo $schoolDetails['School_ID']; ?></p>
+    <h2 class="primary-color">Search Books</h2>
+  
     <p><strong>School Name:</strong> <?php echo $schoolDetails['School_name']; ?></p>
-    <p><strong>School Address:</strong> <?php echo $schoolDetails['address']; ?></p>
-  </div>
+  
   <form method="POST">
       <input type="hidden" name="School_ID" value="<?php echo $schoolID; ?>">
       <input type="text" name="search_title" placeholder="Search by Title" value="<?php echo $searchTitle; ?>">
@@ -188,6 +187,11 @@ if (isset($_SESSION['School_ID'])) {
           <p><strong>Language:</strong> <?php echo $book['language_name']; ?></p>
           <p><strong>Author:</strong> <?php echo $book['authors']; ?></p>
           <p><strong>Category:</strong> <?php echo $book['categories']; ?></p>
+          <p><strong>ISBN:</strong> <?php echo $book['ISBN']; ?></p>
+          <p><strong>Summary:</strong> <?php echo $book['summary']; ?></p>
+          <p><strong>Keywords:</strong> <?php echo $book['keyword']; ?></p>
+
+
         </div>
         <div class="action-buttons">
         <form action="" method="post">
