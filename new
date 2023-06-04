@@ -858,3 +858,33 @@ INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reser
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('40', '7', '2', '33', '2023-06-05');
 
 
+INSERT INTO Category (Category_ID, category) VALUES ('1', 'Fiction');
+INSERT INTO Category (Category_ID, category) VALUES ('2', 'Mystery');
+INSERT INTO Category (Category_ID, category) VALUES ('3', 'Romance');
+INSERT INTO Category (Category_ID, category) VALUES ('4', 'Science Fiction');
+INSERT INTO Category (Category_ID, category) VALUES ('5', 'Fantasy');
+INSERT INTO Category (Category_ID, category) VALUES ('6', 'Thriller');
+INSERT INTO Category (Category_ID, category) VALUES ('7', 'Horror');
+INSERT INTO Category (Category_ID, category) VALUES ('8', 'Historical Fiction');
+INSERT INTO Category (Category_ID, category) VALUES ('9', 'Biography');
+INSERT INTO Category (Category_ID, category) VALUES ('10', 'Self-Help');
+INSERT INTO Category (Category_ID, category) VALUES ('11', 'Poetry');
+INSERT INTO Category (Category_ID, category) VALUES ('12', 'Memoir');
+INSERT INTO Category (Category_ID, category) VALUES ('13', 'Travel');
+INSERT INTO Category (Category_ID, category) VALUES ('14', 'Business');
+INSERT INTO Category (Category_ID, category) VALUES ('15', 'Science');
+INSERT INTO Category (Category_ID, category) VALUES ('16', 'Philosophy');
+INSERT INTO Category (Category_ID, category) VALUES ('17', 'Psychology');
+INSERT INTO Category (Category_ID, category) VALUES ('18', 'Art');
+INSERT INTO Category (Category_ID, category) VALUES ('19', 'Cooking');
+INSERT INTO Category (Category_ID, category) VALUES ('20', 'History');
+INSERT INTO Category (Category_ID, category) VALUES ('21', 'Religion');
+INSERT INTO Category (Category_ID, category) VALUES ('22', 'Health and Fitness');
+INSERT INTO Category (Category_ID, category) VALUES ('23', 'Education');
+INSERT INTO Category (Category_ID, category) VALUES ('24', 'Sports');
+INSERT INTO Category (Category_ID, category) VALUES ('25', 'Technology');
+INSERT INTO Category (Category_ID, category) VALUES ('26', 'Parenting');
+INSERT INTO Category (Category_ID, category) VALUES ('27', 'Music');
+INSERT INTO Category (Category_ID, category) VALUES ('28', 'Nature and Environment');
+INSERT INTO Category (Category_ID, category) VALUES ('29', 'Politics');
+INSERT INTO Category (Category_ID, category) VALUES ('30', 'Humor');
