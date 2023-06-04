@@ -102,12 +102,18 @@ if (isset($_POST['submit'])) {
   <div class="logo">Library</div>
   <nav>
     <ul>
-      <li><a href="user_dashboard.php">Home</a></li>
-      <li><a href="search_book.php">Search Books</a></li>
+    <?php if (isset($_SESSION['Admin_ID'])) { ?>
+      <li><a href="admin_dashboard.php">Home</a></li>
+      <?php } elseif(isset($_SESSION['Manager_ID'])) { ?>
+        <li><a href="operator_manager_dashboard.php">Home</a></li>
+        <?php } else { ?>
+          <li><a href="user_dashboard.php">Home</a></li>
+          <?php } ?>
+
+
       <li><a href="view_account.php">My Account</a></li>
-      <li><a href="#">Library Events</a></li>
-      <li><a href="contact_us.php">Contact Us</a></li>
-      <li><a href="login.php?logout=1">Log Out</a></li>
+
+      <li><a href="front_page.php">Log Out</a></li>
     </ul>
   </nav>
 </header>
