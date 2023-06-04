@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS School_Unit (
   Telephone VARCHAR(50) NOT NULL,
   email VARCHAR(255) NOT NULL,
   principal_fullname VARCHAR(50) NOT NULL,
-  Admin_ID INT UNSIGNED NOT NULL,
+  Admin_ID INT  NOT NULL,
   CONSTRAINT fk_School_Admin_ID FOREIGN KEY (Admin_ID)
     REFERENCES administrator (Admin_ID)
     ON DELETE RESTRICT,
