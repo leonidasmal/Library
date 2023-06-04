@@ -54,7 +54,7 @@ $result = mysqli_query($conn, $query);
               </tr>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
-            echo "<td>" . $row['studprof_id'] . "</td>";
+            echo "<td>" . $row['user_ID'] . "</td>";
             echo "<td>" . $row['first_name'] . "</td>";
             echo "<td>" . $row['last_name'] . "</td>";
             echo "<td>" . $row['School_name'] . "</td>";
