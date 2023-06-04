@@ -28,7 +28,8 @@ if (isset($_POST['submit'])) {
 
       if ($updateResult) {
         $_SESSION['msg1'] = "Username has been successfully changed. Please log out and log in again from the front page in order to access your account with the new username.";
-    } else {
+        header("Location: front_page.php");
+      } else {
         $_SESSION['msg2'] = "Error updating username: " . mysqli_error($conn);
       }
     } else {
