@@ -40,7 +40,7 @@ $isAdmin = mysqli_num_rows($ADMINResult) > 0;
 $SPuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name,users.Email
                     FROM users
                     INNER JOIN students_professors ON users.User_ID = students_professors.User_ID
-                    INNER JOIN school_unit ON school_unit.School_name = students_professors.School_ID
+                    INNER JOIN school_unit ON school_unit.School_ID = students_professors.School_ID
                     WHERE users.User_ID = '{$userID}'";
 
 $SPuserDetailsResult = mysqli_query($conn, $SPuserDetailsQuery);
@@ -49,7 +49,7 @@ $SPuserDetails = mysqli_fetch_assoc($SPuserDetailsResult );
 $MANAGERuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name,users.Email
                     FROM users
                     INNER JOIN school_unit_manager  sum ON users.User_ID = sum.User_ID
-                    INNER JOIN school_unit ON school_unit.School_name = sum.School_ID
+                    INNER JOIN school_unit ON school_unit.School_ID = sum.School_ID
                     WHERE users.User_ID = '{$userID}'";
 $MANAGERuserDetailsResult = mysqli_query($conn, $MANAGERuserDetailsQuery);
 $MANAGERuserDetails = mysqli_fetch_assoc($MANAGERuserDetailsResult);
