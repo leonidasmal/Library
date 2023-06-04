@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
 
         if ($updateResult) {
           $_SESSION['msg1'] = "Password Changed Successfully";
+          header("Location: front_page.php");
         } else {
           $_SESSION['msg2'] = "Error updating password: " . mysqli_error($conn);
         }
