@@ -882,33 +882,33 @@ INSERT INTO Review (review_id, Book_id, User_ID, Manager_ID, likert_scale, appro
 _______________________
 
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('1', '29', '1', '1', '2023-10-05', '2023-04-06');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('2', '41', '2', '2', '2023-05-05', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('2', '41', '2', '2', '2023-05-05', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('3', '22', '3', '3', '2023-08-05', '2023-10-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('4', '40', '4', '4', '2023-05-29', '2023-12-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('5', '45', '5', '5', '2023-04-05', '2023-05-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('6', '79', '1', '6', '2023-05-14', '2023-06-16');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('7', '29', '2', '7', '2023-05-24', '2023-06-16');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('8', '83', '3', '8', '2023-05-30', '2023-06-17');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('9', '32', '4', '9', '2023-04-29', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('10', '83', '5', '10', '2023-04-30', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('11', '85', '1', '11', '2023-04-30', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('12', '49', '2', '12', '2023-09-05', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('13', '91', '3', '13', '2023-05-26', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('14', '47', '4', '14', '2023-05-14', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('15', '75', '5', '15', '2023-09-05', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('16', '86', '1', '16', '2023-05-15', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('17', '21', '2', '17', '2023-04-05', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('18', '69', '3', '18', '2023-05-14', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('19', '77', '4', '19', '2023-05-31', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('20', '89', '5', '20', '2023-05-17', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('21', '95', '1', '21', '2023-01-06', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('22', '98', '2', '22', '2023-03-06', '');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('23', '22', '3', '23', '2023-05-15', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('9', '32', '4', '9', '2023-04-29', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('10', '83', '5', '10', '2023-04-30', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('11', '85', '1', '11', '2023-04-30', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('12', '49', '2', '12', '2023-09-05', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('13', '91', '3', '13', '2023-05-26', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('14', '47', '4', '14', '2023-05-14', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('15', '75', '5', '15', '2023-09-05', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('16', '86', '1', '16', '2023-05-15', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('17', '21', '2', '17', '2023-04-05', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('18', '69', '3', '18', '2023-05-14', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('19', '77', '4', '19', '2023-05-31', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('20', '89', '5', '20', '2023-05-17', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('21', '95', '1', '21', '2023-01-06', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('22', '98', '2', '22', '2023-03-06', NULL);
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('23', '22', '3', '23', '2023-05-15', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('24', '52', '4', '24', '2023-07-05', '2023-12-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('25', '36', '5', '25', '2023-02-05', '2023-06-13');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('26', '26', '1', '26', '2023-05-13', '2023-06-15');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('27', '23', '2', '27', '2023-04-06', '2023-08-06');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('28', '98', '3', '28', '2023-09-05', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('28', '98', '3', '28', '2023-09-05', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('29', '79', '4', '29', '2023-03-05', '2023-04-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('30', '1', '5', '30', '2023-07-05', '2023-06-13');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('31', '52', '1', '31', '2023-04-28', '2023-12-06');
@@ -916,21 +916,22 @@ INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_ret
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('33', '41', '3', '33', '2023-09-05', '2023-06-18');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('34', '42', '4', '34', '2023-07-05', '2023-06-13');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('35', '30', '5', '35', '2023-05-31', '2023-06-16');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('36', '68', '1', '36', '2023-01-06', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('36', '68', '1', '36', '2023-01-06', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('37', '59', '2', '37', '2023-05-27', '2023-06-13');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('38', '87', '3', '38', '2023-05-05', '2023-06-15');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('39', '56', '4', '39', '2023-05-20', '2023-06-18');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('40', '71', '5', '40', '2023-06-05', '2023-06-16');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('41', '82', '1', '2', '2023-09-05', '2023-12-06');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('42', '69', '2', '24', '2023-10-05', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('42', '69', '2', '24', '2023-10-05', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('43', '1', '3', '39', '2023-04-29', '2023-05-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('44', '61', '4', '38', '2023-05-21', '2023-05-24');
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('45', '25', '5', '1', '2023-09-05', '');
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('45', '25', '5', '1', '2023-09-05', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('46', '21', '1', '20', '2023-05-16', '2023-12-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('47', '35', '2', '15', '2023-05-22', '2023-05-27');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('48', '84', '3', '21', '2023-02-06', '2023-07-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('49', '7', '4', '12', '2023-05-06', '2023-06-19');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('50', '79', '5', '26', '2023-04-29', '2023-06-19');
+
 
 
 
