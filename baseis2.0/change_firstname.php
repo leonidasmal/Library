@@ -19,6 +19,7 @@ if (isset($_POST['submit'])) {
 
       if ($updateResult) {
         $_SESSION['msg1'] = "Your first name has been successfully changed. Please log out and log in again from the front page in order to access your account with the new first name.";
+       
       } else {
         $_SESSION['msg2'] = "Error updating first name: " . mysqli_error($conn);
       }
@@ -28,13 +29,6 @@ if (isset($_POST['submit'])) {
   } else {
     $_SESSION['msg2'] = "Error retrieving user account information: " . mysqli_error($conn);
   }
-}
-
-// Logout functionality
-if (isset($_GET['logout'])) {
-  session_destroy(); // Destroy all session data
-  header("Location: front_page.php");
-  exit;
 }
 ?>
 
@@ -103,12 +97,18 @@ if (isset($_GET['logout'])) {
   <div class="logo">Library</div>
   <nav>
     <ul>
-      <li><a href="user_dashboard.php">Home</a></li>
-      <li><a href="search_book.php">Search Books</a></li>
-      <li><a href="view_account.php">My Account</a></li> <!-- Updated link -->
-      <li><a href="#">Library Events</a></li>
-      <li><a href="#">Contact Us</a></li>
-      <li><a href="?logout">Log Out</a></li> <!-- Add logout link with query parameter -->   
+    <?php if (isset($_SESSION['Admin_ID'])) { ?>
+      <li><a href="admin_dashboard.php">Home</a></li>
+      <?php } elseif(isset($_SESSION['Manager_ID'])) { ?>
+        <li><a href="operator_manager_dashboard.php">Home</a></li>
+        <?php } else { ?>
+          <li><a href="user_dashboard.php">Home</a></li>
+          <?php } ?>
+
+
+      <li><a href="view_account.php">My Account</a></li>
+
+      <li><a href="front_page.php">Log Out</a></li>  
     </ul>
   </nav>
 </header>
