@@ -4,196 +4,196 @@ session_start();
 if (isset($_POST['Author_ID'])  && isset($_POST["Delete_Author"])  ){
     $authorID = $_POST['Author_ID'];
 
-    // Prepare a delete statement
-    $sql = "DELETE FROM book_author WHERE Author_ID = ?";
+                // Prepare a delete statement
+                $sql = "DELETE FROM book_author WHERE Author_ID = ?";
 
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("i", $authorID);
+                if ($stmt = $conn->prepare($sql)) {
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bind_param("i", $authorID);
 
-        // Attempt to execute the prepared statement
-        if ($stmt->execute()) {
-            echo "Author was deleted successfully.";
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
-        }
-    }
-    // Close statement
-    $stmt->close();
-}
-
-if (isset($_POST['Category_ID'])  && isset($_POST["Delete_Category"])  ){
-    $authorID = $_POST['Category_ID'];
-
-    // Prepare a delete statement
-    $sql = "DELETE FROM book_category WHERE Category_ID = ?";
-
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("i", $authorID);
-
-        // Attempt to execute the prepared statement
-        if ($stmt->execute()) {
-            echo "Category was deleted successfully.";
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
-        }
-    }
-    // Close statement
-    $stmt->close();
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['E_authorID'])) {
-    $_SESSION['Author_ID'] = $_POST['E_authorID'];
-    $_SESSION['author_fullname'] = $_POST['E_authorname'];
-
-    header("Location: edit_author.php"); // Redirect to make_reservation.php after storing the book ID in the session
-    exit;
-  }
-  
-  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['E_categoryID'])) {
-    $_SESSION['Category_ID'] = $_POST['E_categoryID'];
-    $_SESSION['category'] = $_POST['E_category'];
-
-    header("Location: edit_category.php"); // Redirect to make_reservation.php after storing the book ID in the session
-    exit;
-  }
-  
-$submittedSuccessfully = false;
-
-// Check if Book_ID is present in the URL
-if (isset($_SESSION['Book_ID'])) {
-    $bookID = $_SESSION['Book_ID'];
-    if (isset($_SESSION['School_ID'])) {
-        $schoolID = $_SESSION['School_ID'];
-    } else {
-        echo "School_ID not provided";
-        exit;
-    }
-    $bookDetailsQuery = "SELECT * FROM book WHERE Book_ID = ?";
-    $bookDetailsStmt = mysqli_prepare($conn, $bookDetailsQuery);
-    mysqli_stmt_bind_param($bookDetailsStmt, 'i', $bookID);
-    mysqli_stmt_execute($bookDetailsStmt);
-    mysqli_stmt_bind_result($bookDetailsStmt, $Book_ID, $title_old, $publisher_old, $ISBN_old, $pg_numbers_old,$keyword_old ,$summary_old, $image_URL_old, $languageID);
-    mysqli_stmt_fetch($bookDetailsStmt);
-    mysqli_stmt_close($bookDetailsStmt);
-    
-    $booklanguageQuery = "SELECT  bl.language_name
-    FROM book b
-    INNER JOIN book_language bl ON b.Language_ID = bl.Language_ID
-    WHERE b.book_ID = ?";
-    $booklanguageStmt = mysqli_prepare($conn, $booklanguageQuery);
-    mysqli_stmt_bind_param($booklanguageStmt, 'i', $bookID);
-    mysqli_stmt_execute($booklanguageStmt);
-    mysqli_stmt_bind_result($booklanguageStmt, $languageName_old);
-    // Fetch the result
-    mysqli_stmt_fetch($booklanguageStmt);
-    mysqli_stmt_close($booklanguageStmt);
-     // Retrieve available copies
-     $copiesQuery = "SELECT available_copies FROM school_book WHERE School_ID = ? AND Book_ID = ?";
-     $copiesStmt = mysqli_prepare($conn, $copiesQuery);
-     mysqli_stmt_bind_param($copiesStmt, 'ii', $schoolID, $bookID);
-     mysqli_stmt_execute($copiesStmt);
-     mysqli_stmt_bind_result($copiesStmt, $availableCopies_old);
-     mysqli_stmt_fetch($copiesStmt);
-     mysqli_stmt_close($copiesStmt);
-    
-   // Retrieve authors for the book
-$authorsQuery = "SELECT a.Author_ID, a.author_fullname
-FROM author a
-INNER JOIN book_author ba ON a.Author_ID = ba.Author_ID
-WHERE ba.book_ID = ?";
-$authorsStmt = mysqli_prepare($conn, $authorsQuery);
-mysqli_stmt_bind_param($authorsStmt, 'i', $bookID);
-mysqli_stmt_execute($authorsStmt);
-$AuthorResult = mysqli_stmt_get_result($authorsStmt);
-
-// Free the statement result
-$bookCategoriesQuery = "SELECT  c.category,c.Category_ID
-FROM book_category bc
-INNER JOIN category c ON bc.Category_ID = c.Category_ID
-WHERE bc.Book_ID = ?";
-$bookCategoriesStmt = mysqli_prepare($conn, $bookCategoriesQuery);
-mysqli_stmt_bind_param($bookCategoriesStmt, 'i', $bookID);
-mysqli_stmt_execute($bookCategoriesStmt);
-$CategoryResult= mysqli_stmt_get_result($bookCategoriesStmt);
-
-// // Retrieve keywords for the book
-// $keywordsQuery = "SELECT  bk.keyword
-//     FROM book_keyword bk
-//     INNER JOIN book b ON bk.Book_ID=b.Book_ID
-//     WHERE b.Book_ID = ?";
-// $keywordsStmt = mysqli_prepare($conn, $keywordsQuery);
-// mysqli_stmt_bind_param($keywordsStmt, 'i', $bookID);
-// mysqli_stmt_execute($keywordsStmt);
-// mysqli_stmt_bind_result($keywordsStmt, $keywordName);
-
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Handle the form submission
-    if (isset($_POST['submit'])) {
-        // Get the values from the form
-        $title = $_POST['title'];
-        $ISBN = $_POST['ISBN'];
-        $summary = $_POST['summary'];
-        $image_URL = $_POST['image_URL'];
-        $pg_numbers = $_POST['pg_numbers'];
-        $language = $_POST['language'];
-        
-        $availableCopies = $_POST['Available_Copies'];
-       
-    $keyword = $_POST['keyword'];
-
- 
-    
-        // Update title
-        $updateTitleQuery = "UPDATE book SET title = ? WHERE Book_ID = ?";
-        $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
-        mysqli_stmt_bind_param($updateTitleStmt, 'si', $title, $bookID);
-        mysqli_stmt_execute($updateTitleStmt);
-        // Update keyword
-        $updateTitleQuery = "UPDATE book SET keyword = ? WHERE Book_ID = ?";
-        $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
-        mysqli_stmt_bind_param($updateTitleStmt, 'si', $keyword, $bookID);
-        mysqli_stmt_execute($updateTitleStmt);
-
-
-         // Update title
-         $updateTitleQuery = "UPDATE book SET title = ? WHERE Book_ID = ?";
-         $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
-         mysqli_stmt_bind_param($updateTitleStmt, 'si', $title, $bookID);
-         mysqli_stmt_execute($updateTitleStmt);
-
-        // Update ISBN
-        $updateISBNQuery = "UPDATE book SET ISBN = ? WHERE Book_ID = ?";
-        $updateISBNStmt = mysqli_prepare($conn, $updateISBNQuery);
-        mysqli_stmt_bind_param($updateISBNStmt, 'si', $ISBN, $bookID);
-        mysqli_stmt_execute($updateISBNStmt);
-        // Update Language
-            $existingLanguageQuery = "SELECT Language_ID FROM book_language WHERE language_name = ?";
-            $existingLanguageStmt = mysqli_prepare($conn, $existingLanguageQuery);
-            mysqli_stmt_bind_param($existingLanguageStmt, 's', $language);
-            mysqli_stmt_execute($existingLanguageStmt);
-            mysqli_stmt_store_result($existingLanguageStmt);
-
-            if (mysqli_stmt_num_rows($existingLanguageStmt) > 0) {
-                // Language already exists, retrieve the existing ID
-                mysqli_stmt_bind_result($existingLanguageStmt, $languageID);
-                mysqli_stmt_fetch($existingLanguageStmt);
-            } else {
-                // Language is new, insert into book_language table
-                $insertLanguageQuery = "INSERT INTO book_language (language_name) VALUES (?)";
-                $insertLanguageStmt = mysqli_prepare($conn, $insertLanguageQuery);
-                mysqli_stmt_bind_param($insertLanguageStmt, 's', $language);
-                mysqli_stmt_execute($insertLanguageStmt);
-                $languageID = mysqli_insert_id($conn); // Retrieve the last inserted ID
-                mysqli_stmt_close($insertLanguageStmt);
+                    // Attempt to execute the prepared statement
+                    if ($stmt->execute()) {
+                        echo "Author was deleted successfully.";
+                    } else {
+                        echo "Oops! Something went wrong. Please try again later.";
+                    }
+                }
+                // Close statement
+                $stmt->close();
             }
 
-            $updateLanguageQuery = "UPDATE book SET Language_ID = ? WHERE Book_ID = ?";
-            $updateLanguageStmt = mysqli_prepare($conn, $updateLanguageQuery);
-            mysqli_stmt_bind_param($updateLanguageStmt, 'ii', $languageID, $bookID); // Use 'ii' for two integers
-            mysqli_stmt_execute($updateLanguageStmt);
+            if (isset($_POST['Category_ID'])  && isset($_POST["Delete_Category"])  ){
+                $authorID = $_POST['Category_ID'];
+
+                // Prepare a delete statement
+                $sql = "DELETE FROM book_category WHERE Category_ID = ?";
+
+                if ($stmt = $conn->prepare($sql)) {
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bind_param("i", $authorID);
+
+                    // Attempt to execute the prepared statement
+                    if ($stmt->execute()) {
+                        echo "Category was deleted successfully.";
+                    } else {
+                        echo "Oops! Something went wrong. Please try again later.";
+                    }
+                }
+                // Close statement
+                $stmt->close();
+            }
+
+            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['E_authorID'])) {
+                $_SESSION['Author_ID'] = $_POST['E_authorID'];
+                $_SESSION['author_fullname'] = $_POST['E_authorname'];
+
+                header("Location: edit_author.php"); // Redirect to make_reservation.php after storing the book ID in the session
+                exit;
+            }
+            
+            if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['E_categoryID'])) {
+                $_SESSION['Category_ID'] = $_POST['E_categoryID'];
+                $_SESSION['category'] = $_POST['E_category'];
+
+                header("Location: edit_category.php"); // Redirect to make_reservation.php after storing the book ID in the session
+                exit;
+            }
+            
+            $submittedSuccessfully = false;
+
+            // Check if Book_ID is present in the URL
+            if (isset($_SESSION['Book_ID'])) {
+                $bookID = $_SESSION['Book_ID'];
+                if (isset($_SESSION['School_ID'])) {
+                    $schoolID = $_SESSION['School_ID'];
+                } else {
+                    echo "School_ID not provided";
+                    exit;
+                }
+                $bookDetailsQuery = "SELECT * FROM book WHERE Book_ID = ?";
+                $bookDetailsStmt = mysqli_prepare($conn, $bookDetailsQuery);
+                mysqli_stmt_bind_param($bookDetailsStmt, 'i', $bookID);
+                mysqli_stmt_execute($bookDetailsStmt);
+                mysqli_stmt_bind_result($bookDetailsStmt, $Book_ID, $title_old, $publisher_old, $ISBN_old, $pg_numbers_old,$keyword_old ,$summary_old, $image_URL_old, $languageID);
+                mysqli_stmt_fetch($bookDetailsStmt);
+                mysqli_stmt_close($bookDetailsStmt);
+                
+                $booklanguageQuery = "SELECT  bl.language_name
+                FROM book b
+                INNER JOIN book_language bl ON b.Language_ID = bl.Language_ID
+                WHERE b.book_ID = ?";
+                $booklanguageStmt = mysqli_prepare($conn, $booklanguageQuery);
+                mysqli_stmt_bind_param($booklanguageStmt, 'i', $bookID);
+                mysqli_stmt_execute($booklanguageStmt);
+                mysqli_stmt_bind_result($booklanguageStmt, $languageName_old);
+                // Fetch the result
+                mysqli_stmt_fetch($booklanguageStmt);
+                mysqli_stmt_close($booklanguageStmt);
+                // Retrieve available copies
+                $copiesQuery = "SELECT available_copies FROM school_book WHERE School_ID = ? AND Book_ID = ?";
+                $copiesStmt = mysqli_prepare($conn, $copiesQuery);
+                mysqli_stmt_bind_param($copiesStmt, 'ii', $schoolID, $bookID);
+                mysqli_stmt_execute($copiesStmt);
+                mysqli_stmt_bind_result($copiesStmt, $availableCopies_old);
+                mysqli_stmt_fetch($copiesStmt);
+                mysqli_stmt_close($copiesStmt);
+                
+            // Retrieve authors for the book
+            $authorsQuery = "SELECT a.Author_ID, a.author_fullname
+            FROM author a
+            INNER JOIN book_author ba ON a.Author_ID = ba.Author_ID
+            WHERE ba.book_ID = ?";
+            $authorsStmt = mysqli_prepare($conn, $authorsQuery);
+            mysqli_stmt_bind_param($authorsStmt, 'i', $bookID);
+            mysqli_stmt_execute($authorsStmt);
+            $AuthorResult = mysqli_stmt_get_result($authorsStmt);
+
+            // Free the statement result
+            $bookCategoriesQuery = "SELECT  c.category,c.Category_ID
+            FROM book_category bc
+            INNER JOIN category c ON bc.Category_ID = c.Category_ID
+            WHERE bc.Book_ID = ?";
+            $bookCategoriesStmt = mysqli_prepare($conn, $bookCategoriesQuery);
+            mysqli_stmt_bind_param($bookCategoriesStmt, 'i', $bookID);
+            mysqli_stmt_execute($bookCategoriesStmt);
+            $CategoryResult= mysqli_stmt_get_result($bookCategoriesStmt);
+
+            // // Retrieve keywords for the book
+            // $keywordsQuery = "SELECT  bk.keyword
+            //     FROM book_keyword bk
+            //     INNER JOIN book b ON bk.Book_ID=b.Book_ID
+            //     WHERE b.Book_ID = ?";
+            // $keywordsStmt = mysqli_prepare($conn, $keywordsQuery);
+            // mysqli_stmt_bind_param($keywordsStmt, 'i', $bookID);
+            // mysqli_stmt_execute($keywordsStmt);
+            // mysqli_stmt_bind_result($keywordsStmt, $keywordName);
+
+            // Check if the form is submitted
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Handle the form submission
+                if (isset($_POST['submit'])) {
+                    // Get the values from the form
+                    $title = $_POST['title'];
+                    $ISBN = $_POST['ISBN'];
+                    $summary = $_POST['summary'];
+                    $image_URL = $_POST['image_URL'];
+                    $pg_numbers = $_POST['pg_numbers'];
+                    $language = $_POST['language'];
+                    
+                    $availableCopies = $_POST['Available_Copies'];
+                
+                $keyword = $_POST['keyword'];
+
+            
+                
+                    // Update title
+                    $updateTitleQuery = "UPDATE book SET title = ? WHERE Book_ID = ?";
+                    $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
+                    mysqli_stmt_bind_param($updateTitleStmt, 'si', $title, $bookID);
+                    mysqli_stmt_execute($updateTitleStmt);
+                    // Update keyword
+                    $updateTitleQuery = "UPDATE book SET keyword = ? WHERE Book_ID = ?";
+                    $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
+                    mysqli_stmt_bind_param($updateTitleStmt, 'si', $keyword, $bookID);
+                    mysqli_stmt_execute($updateTitleStmt);
+
+
+                    // Update title
+                    $updateTitleQuery = "UPDATE book SET title = ? WHERE Book_ID = ?";
+                    $updateTitleStmt = mysqli_prepare($conn, $updateTitleQuery);
+                    mysqli_stmt_bind_param($updateTitleStmt, 'si', $title, $bookID);
+                    mysqli_stmt_execute($updateTitleStmt);
+
+                    // Update ISBN
+                    $updateISBNQuery = "UPDATE book SET ISBN = ? WHERE Book_ID = ?";
+                    $updateISBNStmt = mysqli_prepare($conn, $updateISBNQuery);
+                    mysqli_stmt_bind_param($updateISBNStmt, 'si', $ISBN, $bookID);
+                    mysqli_stmt_execute($updateISBNStmt);
+                    // Update Language
+                        $existingLanguageQuery = "SELECT Language_ID FROM book_language WHERE language_name = ?";
+                        $existingLanguageStmt = mysqli_prepare($conn, $existingLanguageQuery);
+                        mysqli_stmt_bind_param($existingLanguageStmt, 's', $language);
+                        mysqli_stmt_execute($existingLanguageStmt);
+                        mysqli_stmt_store_result($existingLanguageStmt);
+
+                        if (mysqli_stmt_num_rows($existingLanguageStmt) > 0) {
+                            // Language already exists, retrieve the existing ID
+                            mysqli_stmt_bind_result($existingLanguageStmt, $languageID);
+                            mysqli_stmt_fetch($existingLanguageStmt);
+                        } else {
+                            // Language is new, insert into book_language table
+                            $insertLanguageQuery = "INSERT INTO book_language (language_name) VALUES (?)";
+                            $insertLanguageStmt = mysqli_prepare($conn, $insertLanguageQuery);
+                            mysqli_stmt_bind_param($insertLanguageStmt, 's', $language);
+                            mysqli_stmt_execute($insertLanguageStmt);
+                            $languageID = mysqli_insert_id($conn); // Retrieve the last inserted ID
+                            mysqli_stmt_close($insertLanguageStmt);
+                        }
+
+                        $updateLanguageQuery = "UPDATE book SET Language_ID = ? WHERE Book_ID = ?";
+                        $updateLanguageStmt = mysqli_prepare($conn, $updateLanguageQuery);
+                        mysqli_stmt_bind_param($updateLanguageStmt, 'ii', $languageID, $bookID); // Use 'ii' for two integers
+                        mysqli_stmt_execute($updateLanguageStmt);
 
 
 
@@ -202,43 +202,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        // Update summary
-        $updateSummaryQuery = "UPDATE book SET summary = ? WHERE Book_ID = ?";
-        $updateSummaryStmt = mysqli_prepare($conn, $updateSummaryQuery);
-        mysqli_stmt_bind_param($updateSummaryStmt, 'si', $summary, $bookID);
-        mysqli_stmt_execute($updateSummaryStmt);
+                    // Update summary
+                    $updateSummaryQuery = "UPDATE book SET summary = ? WHERE Book_ID = ?";
+                    $updateSummaryStmt = mysqli_prepare($conn, $updateSummaryQuery);
+                    mysqli_stmt_bind_param($updateSummaryStmt, 'si', $summary, $bookID);
+                    mysqli_stmt_execute($updateSummaryStmt);
 
-        // Update image URL
-        $updateImageURLQuery = "UPDATE book SET image_URL = ? WHERE Book_ID = ?";
-        $updateImageURLStmt = mysqli_prepare($conn, $updateImageURLQuery);
-        mysqli_stmt_bind_param($updateImageURLStmt, 'si', $image_URL, $bookID);
-        mysqli_stmt_execute($updateImageURLStmt);
+                    // Update image URL
+                    $updateImageURLQuery = "UPDATE book SET image_URL = ? WHERE Book_ID = ?";
+                    $updateImageURLStmt = mysqli_prepare($conn, $updateImageURLQuery);
+                    mysqli_stmt_bind_param($updateImageURLStmt, 'si', $image_URL, $bookID);
+                    mysqli_stmt_execute($updateImageURLStmt);
 
-        // Update page numbers
-        $updatePageNumbersQuery = "UPDATE book SET pg_numbers = ? WHERE Book_ID = ?";
-        $updatePageNumbersStmt = mysqli_prepare($conn, $updatePageNumbersQuery);
-        mysqli_stmt_bind_param($updatePageNumbersStmt, 'si', $pg_numbers, $bookID);
-        mysqli_stmt_execute($updatePageNumbersStmt);
+                    // Update page numbers
+                    $updatePageNumbersQuery = "UPDATE book SET pg_numbers = ? WHERE Book_ID = ?";
+                    $updatePageNumbersStmt = mysqli_prepare($conn, $updatePageNumbersQuery);
+                    mysqli_stmt_bind_param($updatePageNumbersStmt, 'si', $pg_numbers, $bookID);
+                    mysqli_stmt_execute($updatePageNumbersStmt);
 
-        // Update the available copies in the school_book table
-        $updateCopiesQuery = "UPDATE school_book SET available_copies = ? WHERE Book_ID = ? AND School_ID = ?";
-        $updateCopiesStmt = mysqli_prepare($conn, $updateCopiesQuery);
-        mysqli_stmt_bind_param($updateCopiesStmt, 'iii', $availableCopies, $bookID, $schoolID);
-        mysqli_stmt_execute($updateCopiesStmt);
+                    // Update the available copies in the school_book table
+                    $updateCopiesQuery = "UPDATE school_book SET available_copies = ? WHERE Book_ID = ? AND School_ID = ?";
+                    $updateCopiesStmt = mysqli_prepare($conn, $updateCopiesQuery);
+                    mysqli_stmt_bind_param($updateCopiesStmt, 'iii', $availableCopies, $bookID, $schoolID);
+                    mysqli_stmt_execute($updateCopiesStmt);
 
-   
+                    
+                    
+                    header("location:edit_book.php ");
+                            
 }
-            // Display success message
-            echo '<div class="success-message">';
-            echo '<div class="emoji">✨</div>';
-            echo 'Update Successful!';
-            echo '<div class="emoji">✨</div>';
-            echo '</div>';
+            }
 
-            $submittedSuccessfully = true;
-        }
-
-    }
+}
+ 
+    
 ?>
 
 <!DOCTYPE html>
@@ -282,6 +279,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-size: 40px;
             margin-bottom: 10px;
         }
+        table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .center {
+            text-align: center;
+        }
+
+        .center button {
+            margin: auto;
+        }
     </style>
  <script>   
 
@@ -324,7 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 <body>
-    <?php if (!$submittedSuccessfully): ?>
+   
     <h1>Update Book Information</h1>
     <form method="POST" action="">
         <label for="title">Title:</label>
@@ -353,7 +361,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            
     <input type="submit" name="submit" value="Update">
 </form>
- <table>
+<table class="center">
     <thead>
         <tr>
             <th>Author ID</th>
@@ -384,10 +392,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endwhile; ?>
     </tbody>
 </table>
+<div class="center">
 <button type="button" onclick="redirectToAddAuthor()">Add Author</button>
+</div>
 
 
-    <table>
+<table class="center">
     <thead>
         <tr>
             <th>Category ID</th>
@@ -410,22 +420,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form id="editcategory<?php echo $row['Category_ID']; ?>" method="post" style="display: none;">
                 <input type='hidden' name="E_categoryID" value="<?php echo $row['Category_ID']; ?>">
                 <input type='hidden' name="E_category" value="<?php echo $row['category']; ?>">
+        
+
         </form>
             </td>
         </tr>
     <?php endwhile; ?>
     </tbody>
 </table>
-    <button type="button" onclick="redirectToAddCategory()">Add Category</button>
+<div class="center">
+<button type="button" onclick="redirectToAddCategory()">Add Category</button>
+</div>
 
-
-
-
-
-    <?php endif; ?>
-
- 
-
+<form action="school_details.php" method="get">
+<input type="submit" value="Back">
+</form>
 
 </body>
 </html>
