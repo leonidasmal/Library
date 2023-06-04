@@ -48,7 +48,7 @@ if (!$schoolsResult) {
   <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Vast+Shadow&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-
+  <body style="background-color: #FADCD9;">
 </head>
 <body>
 <h1 style="text-align: center; font-size: 36px; font-family: 'Vast Shadow', cursive; color: #333;">Library System</h1>
@@ -61,7 +61,9 @@ if (!$schoolsResult) {
       </a>
     </li>
     <li><a href="front_page.php" style="color: black;">Home</a></li>
-    <li><a href="register_school.php" style="color: black;">Register a new School</a></li>
+    <li><a href="register_school.php" style="color: black;">Apply for the registration of a new Library</a></li>
+    <li><a href="registration.php" style="color: black;">Register to a Library of you School</a></li>
+
   </ul>
 </nav>
 
