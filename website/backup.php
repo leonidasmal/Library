@@ -9,15 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     $conn->set_charset("utf8");
 
+    if (!$conn) {
+        die("Database connection failed: " . mysqli_connect_error());
+    }
+
     $tables = array('School_Unit', 'Users', 'administrator','School_Unit_Manager','Book_Language',
     'Book','Author','Book_Author','Category','Book_Category','School_Book','Register','students_professors','Borrower_Card',
     'Loan','Reservation','Review');
-    $sql = "SHOW TABLES";
-    $query = $conn->query($sql);
-    while ($row = $query->fetch_row()) {
-        $tables[] = $row[0];
-    }
-    
+
     $outsql = '';
     foreach ($tables as $table) {
         $sql = "SHOW CREATE TABLE $table";
@@ -31,23 +30,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $columnCount = $query->field_count;
 
-        for ($i = 0; $i < $columnCount; $i++) {
-            while ($row = $query->fetch_row()) {
-                $outsql .= "INSERT INTO $table VALUES(";
-                for ($j = 0; $j < $columnCount; $j++) {
-                    $row[$j] = $row[$j];
+        while ($row = $query->fetch_row()) {
+            $outsql .= "INSERT INTO $table VALUES(";
+            for ($j = 0; $j < $columnCount; $j++) {
+                $row[$j] = $row[$j];
 
-                    if (isset($row[$j])) {
-                        $outsql .= '"' . $row[$j] . '"';
-                    } else {
-                        $outsql .= '""';
-                    }
-                    if ($j < ($columnCount - 1)) {
-                        $outsql .= ',';
-                    }
+                if (isset($row[$j])) {
+                    $outsql .= '"' . $row[$j] . '"';
+                } else {
+                    $outsql .= '""';
                 }
-                $outsql .= ");\n";
+                if ($j < ($columnCount - 1)) {
+                    $outsql .= ',';
+                }
             }
+            $outsql .= ");\n";
         }
 
         $outsql .= "\n";
@@ -72,10 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flush();
         readfile($backup_file_name);
         unlink($backup_file_name); // Remove the SQL file after download
+        exit;
     } else {
         echo "Database backup failed.";
+        exit;
     }
-    exit;
 }
 ?>
 
@@ -95,24 +93,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <li><a href="admin_dashboard.php">Home</a></li>
       <li><a href="#">Library Events</a></li>
       <li><a href="front_page.php">Log out</a></li>
-      <!-- Add logout link with query parameter -->
     </ul>
   </nav>
 </header>
 <body>
   <div class="container">
-    <h2>Database Backup</h2>
-    <form action="backup.php" method="POST">
-      <div class="form-group">
-        <input type="hidden" name="backup_file" value="database_backup.sql">
-      </div>
-      <div class="form-group">
-        <button type="submit">Backup Database</button>
-      </div>
+    <h1>Database Backup</h1>
+    <form method="post">
+      <input type="hidden" name="backup_file" value="database_backup.sql">
+      <button type="submit">Backup Database</button>
     </form>
   </div>
-  <footer>
-  <p>&copy; 2023 Library. All rights reserved.</p>
-</footer>
 </body>
 </html>
