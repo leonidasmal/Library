@@ -58,7 +58,7 @@ if (!$schoolsResult) {
       </a>
     </li>
     <li><a href="front_page.php" style="color: black;">Home</a></li>
-    <li><a href="admin_contact.php" style="color: black;">Contact</a></li>
+    <li><a href="register_school.php" style="color: black;">Register a new School</a></li>
   </ul>
 </nav>
 
