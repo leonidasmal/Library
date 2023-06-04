@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
   $_SESSION["username"] = $username;
+  
 
   // Check if the login is for a regular user
   $userQuery = "SELECT User_ID FROM users WHERE username='$username' AND user_password='$password'";
@@ -21,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // User login successful
     $row = mysqli_fetch_assoc($userResult);
     $userId = $row['User_ID'];
+    $_SESSION["User_ID"]=$userId;
 
     // Check if the user ID matches an admin in the administrator table
     $adminQuery = "SELECT Admin_ID FROM administrator WHERE User_ID='$userId'";
