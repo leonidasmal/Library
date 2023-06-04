@@ -1,4 +1,4 @@
-USE library;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS School_Unit;
 DROP TABLE IF EXISTS School_Unit_Manager;
@@ -28,6 +28,7 @@ DROP PROCEDURE IF EXISTS AddIntervalToDate;
 DROP EVENT IF EXISTS delete_expired_reservations;
 DROP VIEW if exists LateLoans;
 DROP VIEW if exists Book_Details;
+DROP VIEW if exists youngteachers;
 
 CREATE DATABASE  IF NOT EXISTS library;
 
