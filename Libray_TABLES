@@ -42,7 +42,15 @@ Telephone VARCHAR(50) NOT NULL,
 email VARCHAR(255) NOT NULL,
 principal_fullname  VARCHAR(50) NOT NULL,
 Admin_ID Admin_ID INT UNSIGNED NOT NULL,
+CONSTRAINT fk_School_Admin_ID FOREIGN KEY (Admin_ID)
+        REFERENCES administrator (Admin_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
 PRIMARY KEY (School_ID) );
+
+
+
+
 CREATE TABLE IF NOT EXISTS School_Unit_Manager (
 Manager_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 School_ID INT UNSIGNED NOT NULL,
@@ -144,22 +152,6 @@ Available_Copies INT NOT NULL,
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Register (
-Registration_ID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-School_ID INT UNSIGNED NOT NULL,
-Admin_ID INT UNSIGNED NOT NULL,
-PRIMARY KEY (Registration_ID),
-    CONSTRAINT fk_register_School_Unit_ID
-    FOREIGN KEY (School_ID)
-     REFERENCES  school_unit (School_ID)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-    CONSTRAINT fk_register_admin_ID
-    FOREIGN KEY (Admin_ID)
-    REFERENCES administrator (Admin_ID) 
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE); 
-    
     CREATE TABLE IF NOT EXISTS Students_Professors (
     studprof_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     Is_Professor BOOLEAN NOT NULL,
