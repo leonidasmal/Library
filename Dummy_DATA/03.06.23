@@ -974,6 +974,11 @@ INSERT INTO Book_Category(Author_ID,author_fullname) VALUES (16,'10');
 INSERT INTO Book_Category(Author_ID,author_fullname) VALUES (62,'2');
 
 
+INSERT INTO Administrator(Author_ID,author_fullname) VALUES (1,'38');
+INSERT INTO Administrator(Author_ID,author_fullname) VALUES (2,'15');
+INSERT INTO Administrator(Author_ID,author_fullname) VALUES (3,'41');
+INSERT INTO Administrator(Author_ID,author_fullname) VALUES (4,'30');
+INSERT INTO Administrator(Author_ID,author_fullname) VALUES (5,'49');
 
 
 
