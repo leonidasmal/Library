@@ -52,6 +52,20 @@ if (isset($_GET['logout'])) {
         <h3>Overview Loans</h3>
         <a href="manage_loans.php">Manage loan books</a>
       </div>
+
+      <div class="card">
+        <h3>Late Loans</h3>
+        <a href="late_loans.php">View late loans</a>
+      </div>
+
+      <div class="card">
+        <h3>Average Rating Score per borrower and category </h3>
+        <a href="average_ratings.php">View averages</a>
+      </div>
+
+
+
+
       <div class="card">
   <h3>Overview Reservations</h3>
   <a href="manage_reservations.php">Manage reservations on books</a>
@@ -62,14 +76,18 @@ if (isset($_GET['logout'])) {
 </div>
 <div class="card">
   <h3>Overview Registrations</h3>
-  <a href="manager.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">Approve/Deny Users</a>
+  <a href="manager.php">Approve/Deny Users</a>
 </div>
 
 <div class="card">
   <h3>Manage Reviews</h3>
-  <a href="a.php?Manager_ID=<?php echo $_SESSION['Manager_ID']; ?>">See student reviews</a>
+  <a href="manage_reviews.php">See student reviews</a>
 </div>
   </div>
+
+
+
+  
 </section>
 
 <footer>
