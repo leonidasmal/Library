@@ -37,7 +37,7 @@ $ADMINResult = mysqli_query($conn, $ADMINQuery);
 $isAdmin = mysqli_num_rows($ADMINResult) > 0;
 
 // Retrieve the user's school, first name, and last name OF THE USER 
-$SPuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name
+$SPuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name,users.Email
                     FROM users
                     INNER JOIN students_professors ON users.User_ID = students_professors.User_ID
                     INNER JOIN school_unit ON school_unit.School_name = students_professors.School_ID
@@ -46,7 +46,7 @@ $SPuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.Sch
 $SPuserDetailsResult = mysqli_query($conn, $SPuserDetailsQuery);
 $SPuserDetails = mysqli_fetch_assoc($SPuserDetailsResult );
 // Retrieve the user's school, first name, and last name OF THE MANAGER
-$MANAGERuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name
+$MANAGERuserDetailsQuery = "SELECT users.first_name, users.last_name, school_unit.School_Name,users.Email
                     FROM users
                     INNER JOIN school_unit_manager  sum ON users.User_ID = sum.User_ID
                     INNER JOIN school_unit ON school_unit.School_name = sum.School_ID
@@ -54,7 +54,7 @@ $MANAGERuserDetailsQuery = "SELECT users.first_name, users.last_name, school_uni
 $MANAGERuserDetailsResult = mysqli_query($conn, $MANAGERuserDetailsQuery);
 $MANAGERuserDetails = mysqli_fetch_assoc($MANAGERuserDetailsResult);
 // Retrieve the user's school, first name, and last name OF THE ADMIN
-$ADMINuserDetailsQuery = "SELECT users.first_name, users.last_name
+$ADMINuserDetailsQuery = "SELECT users.first_name, users.last_name, users.Email
                     FROM users
                     WHERE users.User_ID = '{$userID}'";
 $ADMINuserDetailsResult = mysqli_query($conn, $ADMINuserDetailsQuery);
@@ -108,18 +108,21 @@ $ADMINuserDetails = mysqli_fetch_assoc($ADMINuserDetailsResult);
         <?php if (!$isManager && !$isAdmin) { ?>
           <h3>First Name: <?php echo $SPuserDetails['first_name']; ?></h3>
           <h3>Last Name: <?php echo $SPuserDetails['last_name']; ?></h3>
+          <h3>Email: <?php echo $SPuserDetails['Email']; ?></h3>
           <h3>School Name: <?php echo $SPuserDetails['School_Name']; ?></h3>
         <?php } elseif(!$isAdmin) { ?>
           <h3>First Name: <?php echo $MANAGERuserDetails['first_name']; ?></h3>
           <h3>Last Name: <?php echo $MANAGERuserDetails['last_name']; ?></h3>
+          <h3>Email: <?php echo $MANAGERuserDetails['Email']; ?></h3>
           <h3>School Name: <?php echo $MANAGERuserDetails['School_Name']; ?></h3>
         <?php } else { ?>
           <h3>First Name: <?php echo $ADMINuserDetails['first_name']; ?></h3>
           <h3>Last Name: <?php echo $ADMINuserDetails['last_name']; ?></h3>
+          <h3>Email: <?php echo $ADMINuserDetails['Email']; ?></h3>
         <?php } ?>
       </div>
       <div class="card">
-        <h3>Αλλαγή Κωδικού</h3>
+        <h3>Change Password</h3>
         <a href="change_password.php">Edit Password</a>
       </div>
       <?php if ($isProfessor || $isManager || $isAdmin) { ?>
@@ -136,7 +139,7 @@ $ADMINuserDetails = mysqli_fetch_assoc($ADMINuserDetailsResult);
       <?php } ?>
       <?php if ($isProfessor || $isManager || $isAdmin) { ?>
         <div class="card">
-          <h3>Edit your Lastname name</h3>
+          <h3>Edit your Last name</h3>
           <a href="change_lastname.php">Edit Last Name</a>
         </div>
       <?php } ?>
