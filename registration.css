@@ -1,0 +1,93 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000000;
+}
+
+.container {
+  background-color: #ffffff;
+  color: #000000; /* Updated text color to black */
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  text-align: center;
+}
+
+
+.container h2 {
+  color: #000000; /* Updated text color to black */
+  margin-top: 0;
+}
+
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #000000;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.input-group .submit-btn {
+  text-align: center;
+}
+
+input[type="submit"] {
+  background-color: #000000; /* Updated submit button color (green) */
+  color: white;
+  cursor: pointer;
+  text-align: center;
+
+}
+
+input[type="submit"]:hover {
+  background-color: #999999; /* Updated submit button hover color (darker green) */
+}
+select {
+  color: #000000; /* Set the text color of the dropdown */
+  background-color: #FFFFFF; /* Set the background color of the dropdown */
+}
+
+/* New CSS to add Library System text */
+.header {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ffffff;
+  font-size: 30px; /* Updated font size to make it bigger */
+  font-weight: bold; /* Added font weight to make it bold */
+}
+
+.container {
+  position: relative;
+}
+
+.top-right-image {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  height: auto;
+  .ui-datepicker {
+    width: 300px;
+    padding: 10px;
+    background-color: #000000;
+    border: 1px solid #000000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+}
