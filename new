@@ -651,7 +651,6 @@ INSERT INTO school_book(Book_ID,School_ID,Available_Copies) VALUES (62,2,7);
 INSERT INTO school_book(Book_ID,School_ID,Available_Copies) VALUES (66,5,2);
 INSERT INTO school_book(Book_ID,School_ID,Available_Copies) VALUES (88,3,1);
 
-_______________________
 
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('1', '29', '1', '1', '2023-10-05', '2023-04-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('2', '41', '2', '2', '2023-05-05', NULL);
