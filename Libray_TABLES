@@ -30,7 +30,7 @@ PRIMARY KEY (Admin_ID),
 CONSTRAINT fk_admin_User_ID
         FOREIGN KEY (User_ID)
         REFERENCES Users (User_ID)
-        ON DELETE RESTRICT,
+        ON DELETE RESTRICT
         ON UPDATE CASCADE,
 );
 CREATE TABLE IF NOT EXISTS School_Unit (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS School_Unit (
   Admin_ID INT  NOT NULL,
   CONSTRAINT fk_School_Admin_ID FOREIGN KEY (Admin_ID)
     REFERENCES administrator (Admin_ID)
-    ON DELETE RESTRICT,
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   PRIMARY KEY (School_ID)
 );
