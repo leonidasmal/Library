@@ -1,7 +1,4 @@
 CREATE 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
 VIEW `youngteachers` AS
     SELECT 
         `u`.`User_ID` AS `user_ID`,
