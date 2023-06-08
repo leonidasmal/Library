@@ -677,7 +677,6 @@ INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_ret
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('21', '95', '1', '21', '2023-01-06', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('22', '98', '2', '22', '2023-03-06', NULL);
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('23', '22', '3', '23', '2023-05-15', NULL);
-INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('24', '52', '4', '24', '2023-07-05', '2023-12-06');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('25', '36', '5', '25', '2023-02-05', '2023-06-13');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('26', '26', '1', '26', '2023-05-13', '2023-06-15');
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('27', '23', '2', '27', '2023-04-06', '2023-08-06');
@@ -706,12 +705,12 @@ INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_ret
 INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('50', '79', '5', '26', '2023-04-29', '2023-06-19');
 
 
+INSERT INTO Loan (loan_id, Book_ID, Manager_ID, studprof_id, loan_date, date_returned) VALUES ('24', '52', '4', '24', '2023-07-05', '2023-12-06');
 
 
 
 
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('1', '51', '5', '37', '2023-06-08');
-INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('2', '38', '2', '16', '2023-06-08');
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('3', '90', '5', '39', '2023-06-07');
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('4', '43', '4', '22', '2023-06-11');
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('5', '19', '4', '23', '2023-06-13');
@@ -752,6 +751,7 @@ INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reser
 INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('40', '7', '2', '33', '2023-06-05');
 
 
+INSERT INTO Reservation (reservation_id, Book_ID, Manager_ID, studprof_id, reservation_date) VALUES ('2', '38', '2', '16', '2023-06-08');
 
 
 INSERT INTO Borrower_Card (Card_ID, Date_issued, Date_expired, Manager_ID, studprof_id) VALUES ('1', '2022-08-21', '2024-10-10', '1', '1');
